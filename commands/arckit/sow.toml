@@ -2,6 +2,14 @@ description = """
 Generate Statement of Work (SOW) / RFP document for vendor procurement
 """
 prompt = """
+**IMPORTANT — Gemini Extension File Access**:
+This command runs as a Gemini CLI extension. The extension directory (`~/.gemini/extensions/arckit/`) is outside the workspace sandbox, so you CANNOT use the read_file tool to access it. Instead:
+- To read templates/files: use a shell command, e.g. `cat ~/.gemini/extensions/arckit/templates/foo-template.md`
+- To list files: use `ls ~/.gemini/extensions/arckit/templates/`
+- To run scripts: use `bash ~/.gemini/extensions/arckit/scripts/bash/create-project.sh --json`
+- To check file existence: use `test -f ~/.gemini/extensions/arckit/templates/foo-template.md && echo exists`
+All extension file access MUST go through shell commands.
+
 You are helping an enterprise architect generate a comprehensive Statement of Work (SOW) that will be used as an RFP document for vendor procurement.
 
 ## User Input
@@ -54,7 +62,7 @@ You are helping an enterprise architect generate a comprehensive Statement of Wo
 3. **Read the template** (with user override support):
    - **First**, check if `.arckit/templates/sow-template.md` exists in the project root
    - **If found**: Read the user's customized template (user override takes precedence)
-   - **If not found**: Read `~/.gemini/extensions/arckit/templates/sow-template.md` (default)
+   - **If not found**: Run `cat ~/.gemini/extensions/arckit/templates/sow-template.md` to read the file (default)
 
    > **Note**: Read the `VERSION` file and update the version in the template metadata line when generating.
    > **Tip**: Users can customize templates with `/arckit:customize sow`

@@ -2,6 +2,14 @@ description = """
 Create strategic Wardley Maps for architecture decisions and build vs buy analysis
 """
 prompt = """
+**IMPORTANT — Gemini Extension File Access**:
+This command runs as a Gemini CLI extension. The extension directory (`~/.gemini/extensions/arckit/`) is outside the workspace sandbox, so you CANNOT use the read_file tool to access it. Instead:
+- To read templates/files: use a shell command, e.g. `cat ~/.gemini/extensions/arckit/templates/foo-template.md`
+- To list files: use `ls ~/.gemini/extensions/arckit/templates/`
+- To run scripts: use `bash ~/.gemini/extensions/arckit/scripts/bash/create-project.sh --json`
+- To check file existence: use `test -f ~/.gemini/extensions/arckit/templates/foo-template.md && echo exists`
+All extension file access MUST go through shell commands.
+
 # ArcKit: Wardley Mapping for Strategic Architecture
 
 You are an expert enterprise architect and Wardley Mapping strategist helping create strategic maps for architecture decisions, build vs buy analysis, vendor evaluation, and UK Government procurement strategy.
@@ -245,10 +253,10 @@ For each component, determine:
 
 To deepen strategic analysis beyond build vs buy, read and apply these reference files:
 
-- **Doctrine assessment**: Read `~/.gemini/extensions/arckit/skills/wardley-mapping/references/doctrine.md` — Score the organization's doctrine maturity (communication, development, operation, learning, leading) and identify weaknesses that affect strategic execution.
-- **Gameplay patterns**: Read `~/.gemini/extensions/arckit/skills/wardley-mapping/references/gameplay-patterns.md` — Identify applicable offensive patterns (tower & moat, ecosystem, open source play) and defensive patterns. Flag anti-patterns (legacy trap, premature innovation).
-- **Climatic patterns**: Read `~/.gemini/extensions/arckit/skills/wardley-mapping/references/climatic-patterns.md` — Assess external forces (everything evolves, co-evolution, efficiency enables innovation, inertia, technology waves) and their impact on each component.
-- **Mapping examples**: Read `~/.gemini/extensions/arckit/skills/wardley-mapping/references/mapping-examples.md` — Use worked examples (E-Commerce, DevOps Platform, ML Product) as positioning benchmarks for common component types.
+- **Doctrine assessment**: Run `cat ~/.gemini/extensions/arckit/skills/wardley-mapping/references/doctrine.md` to read the file — Score the organization's doctrine maturity (communication, development, operation, learning, leading) and identify weaknesses that affect strategic execution.
+- **Gameplay patterns**: Run `cat ~/.gemini/extensions/arckit/skills/wardley-mapping/references/gameplay-patterns.md` to read the file — Identify applicable offensive patterns (tower & moat, ecosystem, open source play) and defensive patterns. Flag anti-patterns (legacy trap, premature innovation).
+- **Climatic patterns**: Run `cat ~/.gemini/extensions/arckit/skills/wardley-mapping/references/climatic-patterns.md` to read the file — Assess external forces (everything evolves, co-evolution, efficiency enables innovation, inertia, technology waves) and their impact on each component.
+- **Mapping examples**: Run `cat ~/.gemini/extensions/arckit/skills/wardley-mapping/references/mapping-examples.md` to read the file — Use worked examples (E-Commerce, DevOps Platform, ML Product) as positioning benchmarks for common component types.
 
 Include a **Doctrine Assessment Summary**, **Applicable Gameplay Patterns**, and **Climatic Pattern Analysis** section in the output document.
 
@@ -315,7 +323,7 @@ Create the Wardley Map document using the template:
 **Read the template** (with user override support):
 - **First**, check if `.arckit/templates/wardley-map-template.md` exists in the project root
 - **If found**: Read the user's customized template (user override takes precedence)
-- **If not found**: Read `~/.gemini/extensions/arckit/templates/wardley-map-template.md` (default)
+- **If not found**: Run `cat ~/.gemini/extensions/arckit/templates/wardley-map-template.md` to read the file (default)
 
 > **Note**: Read the `VERSION` file and update the version in the template metadata line when generating.
 > **Tip**: Users can customize templates with `/arckit:customize wardley`

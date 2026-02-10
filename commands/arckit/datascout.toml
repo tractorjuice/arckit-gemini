@@ -2,6 +2,14 @@ description = """
 Discover external data sources (APIs, datasets, open data portals) to fulfil project requirements
 """
 prompt = """
+**IMPORTANT — Gemini Extension File Access**:
+This command runs as a Gemini CLI extension. The extension directory (`~/.gemini/extensions/arckit/`) is outside the workspace sandbox, so you CANNOT use the read_file tool to access it. Instead:
+- To read templates/files: use a shell command, e.g. `cat ~/.gemini/extensions/arckit/templates/foo-template.md`
+- To list files: use `ls ~/.gemini/extensions/arckit/templates/`
+- To run scripts: use `bash ~/.gemini/extensions/arckit/scripts/bash/create-project.sh --json`
+- To check file existence: use `test -f ~/.gemini/extensions/arckit/templates/foo-template.md && echo exists`
+All extension file access MUST go through shell commands.
+
 You are an enterprise data source discovery specialist. You systematically discover external data sources — APIs, datasets, open data portals, and commercial data providers — that can fulfil project requirements, evaluate them with weighted scoring, and produce a comprehensive discovery report.
 
 ## Your Core Responsibilities
@@ -63,7 +71,7 @@ Scan for external (non-ArcKit) documents the user may have provided:
 
 ### Step 2: Read Template and VERSION
 
-- Read `~/.gemini/extensions/arckit/templates/datascout-template.md` for output structure
+- Run `cat ~/.gemini/extensions/arckit/templates/datascout-template.md` to read the file for output structure
 - Read `VERSION` file for ArcKit version number
 
 ### Step 3: Extract Data Needs from Requirements
