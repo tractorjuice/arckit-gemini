@@ -49,7 +49,7 @@ Read existing artifacts from the project context to understand what to diagram:
 
 ## Step 1c: Interactive Configuration
 
-If the user has **not** specified a diagram type in their arguments (e.g., they just ran `/arckit.diagram` without \"context\", \"container\", \"deployment\", etc.), use the **AskUserQuestion** tool to ask:
+**IMPORTANT**: Ask **both** questions below in a **single AskUserQuestion call** so the user sees them together. Do NOT ask Question 1 first and then conditionally decide whether to ask Question 2 — always present both at once.
 
 **Question 1** — header: `Diagram type`, multiSelect: false
 > \"What type of architecture diagram should be generated?\"
@@ -58,20 +58,20 @@ If the user has **not** specified a diagram type in their arguments (e.g., they 
 - **Deployment**: Infrastructure topology showing cloud resources and network zones
 - **Sequence**: API interactions and request/response flows for key scenarios
 
-If the user specified a type (e.g., `/arckit.diagram deployment`), skip this question and proceed directly.
-
-**Question 2** (C4 types only) — header: `Output format`, multiSelect: false
-> \"What output format should be used for the C4 diagram?\"
+**Question 2** — header: `Output format`, multiSelect: false
+> \"What output format should be used? (Applies to C4 Context, C4 Container, and Sequence — Deployment always uses Mermaid)\"
 - **Mermaid (Recommended)**: Renders in GitHub, VS Code, mermaid.live — best for diagrams with 12 or fewer elements
-- **PlantUML C4**: Directional layout hints (`Rel_Right`, `Rel_Down`, `Lay_Right`) for precise control — best for diagrams with more than 12 elements
+- **PlantUML**: Directional layout hints and richer styling — best for complex diagrams; renders in ArcKit Pages, PlantUML server, VS Code extension
 
-**Skip this question if**:
-- The user specified a format in their arguments (e.g., `/arckit.diagram context plantuml`)
-- The diagram type is Deployment, Sequence, or Data Flow (these are Mermaid-only)
+**Skip rules** (only skip questions the user already answered in their arguments):
+- User specified type only (e.g., `/arckit.diagram context`): skip Question 1, **still ask Question 2**
+- User specified format only (e.g., `/arckit.diagram plantuml`): skip Question 2, still ask Question 1
+- User specified both (e.g., `/arckit.diagram context plantuml`): skip both questions
+- If neither is specified, ask both questions together in one call
 
-**Default**: If not asked or not specified, use Mermaid.
+If the user selects Deployment for Question 1, ignore the Question 2 answer — Deployment is Mermaid-only.
 
-Apply the user's selection when choosing which Mode (A-F) to generate in Step 2 below. For C4 types (Modes A, B, C), use the selected output format.
+Apply the user's selection when choosing which Mode (A-F) to generate in Step 2 below. For C4 types (Modes A, B, C) and Sequence (Mode E), use the selected output format.
 
 ## Step 1d: Load Layout Science Reference
 
@@ -418,7 +418,7 @@ flowchart TB
 
 **Mermaid Syntax**: Use `sequenceDiagram`
 
-**Example**:
+**Mermaid Example**:
 ```mermaid
 sequenceDiagram
     participant Customer
@@ -466,6 +466,61 @@ sequenceDiagram
         API-->>WebApp: 402 Payment Required
         WebApp-->>Customer: Payment failed, try again
     end
+```
+
+**PlantUML Syntax**: Use `@startuml` / `@enduml` with `actor`, `participant`, `database` stereotypes
+
+**PlantUML Example**:
+```plantuml
+@startuml
+title Payment Processing Flow
+
+actor Customer
+participant \"Web App\" as WebApp
+participant \"Payment API\" as API
+participant \"Fraud Detection\" as FraudDetection
+participant \"Payment Orchestrator\" as PaymentOrchestrator
+participant \"Stripe\" as Stripe
+database \"Database\" as Database
+queue \"Message Queue\" as MessageQueue
+
+Customer -> WebApp: Enter payment details
+WebApp -> API: POST /api/v1/payments\\n{amount, card, merchant}
+
+API -> API: Validate request (JWT, schema)
+
+alt Invalid request
+    API --> WebApp: 400 Bad Request
+    WebApp --> Customer: Show error
+end
+
+API -> FraudDetection: POST /fraud/check\\n{card, amount, customer}
+FraudDetection --> API: {risk_score: 0.15, approved: true}
+
+alt High fraud risk
+    API --> WebApp: 403 Forbidden (fraud detected)
+    WebApp --> Customer: Transaction blocked
+end
+
+API -> PaymentOrchestrator: processPayment(details)
+PaymentOrchestrator -> Stripe: POST /v1/charges\\n{amount, token}
+
+alt Stripe success
+    Stripe --> PaymentOrchestrator: {charge_id, status: succeeded}
+    PaymentOrchestrator --> API: {success: true, transaction_id}
+    API -> Database: INSERT INTO transactions
+    Database --> API: Transaction saved
+    API -> MessageQueue: PUBLISH payment.completed
+    API --> WebApp: 200 OK {transaction_id}
+    WebApp --> Customer: Payment successful
+else Stripe failure
+    Stripe --> PaymentOrchestrator: {error, status: failed}
+    PaymentOrchestrator --> API: {success: false, error}
+    API -> Database: INSERT INTO failed_transactions
+    API --> WebApp: 402 Payment Required
+    WebApp --> Customer: Payment failed, try again
+end
+@enduml
 ```
 
 ### Mode F: Data Flow Diagram
@@ -1071,6 +1126,8 @@ The visualization helps:
 - Support implementation planning
 
 ---
+
+- **Markdown escaping**: When writing less-than or greater-than comparisons, always include a space after `<` or `>` (e.g., `< 3 seconds`, `> 99.9% uptime`) to prevent markdown renderers from interpreting them as HTML tags or emoji
 
 ## Final Output
 
