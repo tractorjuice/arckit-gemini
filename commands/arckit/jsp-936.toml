@@ -2972,6 +2972,10 @@ Document how AI system will be monitored and re-assessed throughout its operatio
 
 ---
 
+## Load Mermaid Syntax Reference
+
+Run `cat ~/.gemini/extensions/arckit/skills/mermaid-syntax/references/flowchart.md` to read the file for official Mermaid syntax — node shapes, edge labels, subgraphs, and styling options. Use this reference when generating architecture diagrams and approval pathway flowcharts in the output.
+
 ## Output Generation
 
 Now, **compile all documentation** into a comprehensive JSP 936 AI Assurance package.
