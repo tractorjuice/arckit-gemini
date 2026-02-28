@@ -89,6 +89,11 @@ This command creates a **Strategic Outline Business Case (SOBC)** following HM T
 
    Before generating the SOBC, use the **AskUserQuestion** tool to gather appraisal preferences. **Skip any question the user has already answered in their arguments.**
 
+   **Gathering rules** (apply to all questions in this section):
+   - Ask the most important question first; fill in secondary details from context or reasonable defaults.
+   - **Maximum 2 rounds of questions.** After that, pick the best option from available context.
+   - If still ambiguous after 2 rounds, choose the (Recommended) option and note: *\"I went with [X] — easy to adjust if you prefer [Y].\"*
+
    **Question 1** — header: `Options`, multiSelect: false
    > \"How many strategic options should be evaluated in the Economic Case?\"
    - **4 options (Recommended)**: Do Nothing + Minimal + Balanced + Comprehensive — standard Green Book options appraisal
@@ -397,6 +402,8 @@ To avoid exceeding Claude Code's 32K token output limit, you MUST use the follow
 ### 1. Generate SOBC Document
 
 Create the comprehensive, executive-ready Strategic Outline Business Case following the 5-case model template structure.
+
+Before writing the file, read `~/.gemini/extensions/arckit/references/quality-checklist.md` and verify all **Common Checks** plus the **SOBC** per-type checks pass. Fix any failures before proceeding.
 
 ### 2. Write Directly to File
 

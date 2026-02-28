@@ -70,6 +70,12 @@ Read existing project artifacts to understand what to diagram:
 
 If the user has **not** specified a DFD level in their arguments, use the **AskUserQuestion** tool to ask:
 
+**Gathering rules** (apply to all questions in this section):
+
+- Ask the most important question first; fill in secondary details from context or reasonable defaults.
+- **Maximum 2 rounds of questions.** After that, pick the best option from available context.
+- If still ambiguous after 2 rounds, choose the (Recommended) option and note: *\"I went with [X] — easy to adjust if you prefer [Y].\"*
+
 **Question 1** — header: `DFD Level`, multiSelect: false
 > \"What level of Data Flow Diagram should be generated?\"
 
@@ -236,6 +242,8 @@ flowchart LR
 | External Entity (rectangle) | `[\"label\"]` | `CUST[\"Customer\"]` |
 | Data Store (parallel lines) | `[(\"label\")]` | `D1[(\"D1: Transactions\")]` |
 | Data Flow (arrow) | `-->│label│` | `A -->│data│ B` |
+
+Before writing the file, read `~/.gemini/extensions/arckit/references/quality-checklist.md` and verify all **Common Checks** plus the **DFD** per-type checks pass. Fix any failures before proceeding.
 
 ## Step 4: Generate the Output Document
 

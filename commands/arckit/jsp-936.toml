@@ -88,6 +88,12 @@ If no artifacts found, work with user-provided description.
 - Read any **enterprise standards** in `projects/000-global/external/` — extract enterprise MOD AI governance frameworks, defence innovation standards, cross-project AI assurance evidence
 - If no external MOD AI docs found, ask: \"Do you have any MOD AI assurance reports, DSTL guidance, or safety case documentation? I can read PDFs directly. Place them in `projects/{project-dir}/external/` and re-run, or skip.\"
 
+**Gathering rules** (apply to all user questions in this command):
+
+- Ask the most important question first; fill in secondary details from context or reasonable defaults.
+- **Maximum 2 rounds of questions total.** After that, infer the best answer from available context.
+- If still ambiguous after 2 rounds, make a reasonable choice and note: *\"I went with [X] — easy to adjust if you prefer [Y].\"*
+
 ---
 
 ## Step 2: Discover AI/ML Components
@@ -3460,6 +3466,8 @@ Now, **compile all documentation** into a comprehensive JSP 936 AI Assurance pac
 2. **Generate the document** using this template, populated with all information gathered in Steps 1-10
 
 3. **Review for completeness**: Check that all JSP 936 requirements are addressed (27 requirements: 5 principles + risk classification + governance + 8 phases + approval + monitoring)
+
+Before writing the file, read `~/.gemini/extensions/arckit/references/quality-checklist.md` and verify all **Common Checks** plus the **JSP936** per-type checks pass. Fix any failures before proceeding.
 
 4. **Write the document** to the project directory:
    - **File path**: `projects/{project-name}/ARC-{PROJECT_ID}-JSP936-v1.0.md`

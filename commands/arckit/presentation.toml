@@ -83,6 +83,12 @@ Run more /arckit commands first, then re-run /arckit:presentation.
 
 Before generating the presentation, use the **AskUserQuestion** tool to gather preferences. **Skip any question the user has already answered in their arguments.**
 
+**Gathering rules** (apply to all questions in this section):
+
+- Ask the most important question first; fill in secondary details from context or reasonable defaults.
+- **Maximum 2 rounds of questions.** After that, pick the best option from available context.
+- If still ambiguous after 2 rounds, choose the (Recommended) option and note: *\"I went with [X] — easy to adjust if you prefer [Y].\"*
+
 **Question 1** — header: `Focus`, multiSelect: false
 > \"What audience is this presentation for?\"
 
@@ -190,6 +196,8 @@ Build the slide deck by extracting key content from each artifact:
 - These restrictions exist because Mermaid's parser breaks on non-ASCII and certain punctuation
 
 ### Step 7: Write the output
+
+Before writing the file, read `~/.gemini/extensions/arckit/references/quality-checklist.md` and verify all **Common Checks** plus the **PRES** per-type checks pass. Fix any failures before proceeding.
 
 - Write to `projects/{project-dir}/ARC-{PROJECT_ID}-PRES-v${VERSION}.md`
 - Use the exact template structure with MARP frontmatter

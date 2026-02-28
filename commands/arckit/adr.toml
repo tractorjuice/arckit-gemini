@@ -57,6 +57,12 @@ You are helping an enterprise architect create an Architecture Decision Record (
 
 Before creating the ADR, use the **AskUserQuestion** tool to gather key decision parameters. **Skip any question where the user has already provided a clear answer in their arguments.**
 
+**Gathering rules** (apply to all questions in this section):
+
+- Ask the most important question first; fill in secondary details from context or reasonable defaults.
+- **Maximum 2 rounds of questions.** After that, pick the best option from available context.
+- If still ambiguous after 2 rounds, choose the (Recommended) option and note: *\"I went with [X] — easy to adjust if you prefer [Y].\"*
+
 **Question 1** — header: `Escalation`, multiSelect: false
 > \"What escalation level does this architectural decision require?\"
 
@@ -285,6 +291,8 @@ Apply the user's selections: the escalation level determines the governance foru
 - **Example**: `ARC-001-ADR-001-v1.0.md`, `ARC-001-ADR-002-v1.0.md`
 - **Path**: `projects/{PROJECT_ID}-{project-name}/decisions/ARC-{PROJECT_ID}-ADR-{NUM}-v{VERSION}.md`
 - Sequence number auto-assigned from existing files in the directory
+
+Before writing the file, read `~/.gemini/extensions/arckit/references/quality-checklist.md` and verify all **Common Checks** plus the **ADR** per-type checks pass. Fix any failures before proceeding.
 
 ### 9. **Use Write tool to create the ADR file**
 
