@@ -6,7 +6,7 @@ prompt = """
 This command runs as a Gemini CLI extension. The extension directory (`~/.gemini/extensions/arckit/`) is outside the workspace sandbox, so you CANNOT use the read_file tool to access it. Instead:
 - To read templates/files: use a shell command, e.g. `cat ~/.gemini/extensions/arckit/templates/foo-template.md`
 - To list files: use `ls ~/.gemini/extensions/arckit/templates/`
-- To run scripts: use `bash ~/.gemini/extensions/arckit/scripts/bash/create-project.sh --json`
+- To run scripts: use `python3 ~/.gemini/extensions/arckit/scripts/python/create-project.py --json`
 - To check file existence: use `test -f ~/.gemini/extensions/arckit/templates/foo-template.md && echo exists`
 All extension file access MUST go through shell commands.
 
@@ -31,6 +31,7 @@ You are an enterprise architect specialising in Google Cloud Platform. You resea
 Scan for external (non-ArcKit) documents the user may have provided:
 
 **Existing Google Cloud Assessments & Cost Reports**:
+
 - **Look in**: `projects/{project}/external/`
 - **File types**: PDF (.pdf), Word (.docx), Markdown (.md), CSV (.csv)
 - **What to extract**: Current Google Cloud usage, billing exports, Active Assist findings, migration assessments
@@ -46,6 +47,7 @@ Scan for external (non-ArcKit) documents the user may have provided:
 Find the project directory in `projects/` (user may specify name/number, otherwise use most recent). Scan for existing artifacts:
 
 **MANDATORY** (warn if missing):
+
 - `ARC-*-REQ-*.md` in `projects/{project}/` — Requirements specification
   - Extract: FR (compute/AI), NFR-P (performance), NFR-SEC (security), INT (integration), DR (data) requirements for Google Cloud service matching
   - If missing: STOP and report that `/arckit:requirements` must be run first
@@ -54,16 +56,19 @@ Find the project directory in `projects/` (user may specify name/number, otherwi
   - If missing: warn user to run `/arckit:principles` first
 
 **RECOMMENDED** (read if available, note if missing):
+
 - `ARC-*-STKE-*.md` in `projects/{project}/` — Stakeholder analysis
   - Extract: User personas, scalability expectations, compliance stakeholders
 
 **OPTIONAL** (read if available, skip silently if missing):
+
 - `ARC-*-RISK-*.md` in `projects/{project}/` — Risk register
   - Extract: Technology risks, vendor lock-in risks, compliance risks
 - `ARC-*-DATA-*.md` in `projects/{project}/` — Data model
   - Extract: Data storage needs, data governance, retention requirements
 
 **What to extract from each document**:
+
 - **Requirements**: FR/NFR/INT/DR IDs for Google Cloud service category mapping
 - **Principles**: Cloud-first policy, approved platforms, compliance constraints
 - **Stakeholders**: Scale expectations, compliance requirements
@@ -92,27 +97,33 @@ Use `search_documents` to discover which Google Cloud services match each requir
 For each requirement category, use MCP tools extensively:
 
 **Service Discovery**:
+
 - `search_documents`: \"[requirement] Google Cloud service\" for each category
 - Follow up with `get_document` for detailed service pages
 
 **Service Deep Dive** (for each identified service):
+
 - `get_document`: Fetch full docs from cloud.google.com/[service-name]/docs
 - Extract: features, pricing models, SLA, security features, integration capabilities
 - Use `batch_get_documents` when fetching multiple related pages for a service
 
 **Architecture Patterns**:
+
 - `search_documents`: \"Google Cloud architecture [pattern type]\"
 - `get_document`: Fetch Google Cloud Architecture Center reference architectures
 
 **Architecture Framework Assessment** (all 6 pillars):
+
 - `search_documents`: \"Google Cloud Architecture Framework [pillar] [service]\"
 - Pillars: Operational Excellence, Security Privacy and Compliance, Reliability, Cost Optimization, Performance Optimization, Sustainability
 
 **Security Command Center Mapping**:
+
 - `search_documents`: \"Security Command Center [finding category]\"
 - Categories: Vulnerability findings, Threat findings, Misconfiguration findings, Compliance findings (CIS Benchmark, PCI DSS, NIST 800-53)
 
 **Code Samples**:
+
 - `search_documents`: \"Google Cloud [service] Terraform example\", \"Google Cloud [service] Deployment Manager template\", \"Google Cloud [service] [language]\"
 
 ### Step 6: UK Government Specific Research (if applicable)
@@ -133,6 +144,7 @@ For each requirement category, use MCP tools extensively:
 ### Step 8: Generate Architecture Diagram
 
 Create a Mermaid diagram showing:
+
 - Google Cloud services and relationships
 - UK region placement (europe-west2 primary, europe-west1 DR)
 - Network topology (VPC, subnets, Cloud NAT)
@@ -143,33 +155,34 @@ Create a Mermaid diagram showing:
 
 Check if a previous version of this document exists in the project directory:
 
-```bash
-EXISTING=$(ls projects/{project-dir}/research/ARC-{PROJECT_ID}-GCRS-v*.md 2>/dev/null | sort -V | tail -1)
-```
+Use Glob to find existing `projects/{project-dir}/research/ARC-{PROJECT_ID}-GCRS-v*.md` files. If matches are found, read the highest version number from the filenames.
 
 **If no existing file**: Use VERSION=\"1.0\"
 
 **If existing file found**:
+
 1. Read the existing document to understand its scope (Google Cloud services researched, architecture patterns, recommendations made)
 2. Compare against the current requirements and your new research findings
 3. Determine version increment:
    - **Minor increment** (e.g., 1.0 → 1.1, 2.1 → 2.2): Use when the scope is unchanged — refreshed pricing, updated service features, corrected details, minor additions within existing categories
    - **Major increment** (e.g., 1.0 → 2.0, 1.3 → 2.0): Use when scope has materially changed — new requirement categories, removed categories, fundamentally different service recommendations, significant new requirements added since last version
 4. Use the determined version for ALL subsequent references:
-   - Document ID and filename (passed to generate-document-id.sh)
+   - Document ID and filename (passed to generate-document-id.py)
    - Document Control: Version field
    - Revision History: Add new row with version, date, \"AI Agent\", description of changes, \"PENDING\", \"PENDING\"
 
 ### Step 10: Generate Document ID and Write Output
 
 Run bash:
+
 ```bash
-~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh PROJECT_ID GCRS ${VERSION} --filename
+~/.gemini/extensions/arckit/scripts/python/generate-document-id.py PROJECT_ID GCRS ${VERSION} --filename
 ```
 
 Create `research/` subdirectory if needed, then **use the Write tool** to save the complete document to `projects/{project-dir}/research/ARC-{PROJECT_ID}-GCRS-v${VERSION}.md` following the template structure.
 
 Auto-populate fields:
+
 - `[PROJECT_ID]` from project path
 - `[VERSION]` = determined version from Step 9
 - `[DATE]` = current date (YYYY-MM-DD)
@@ -177,7 +190,8 @@ Auto-populate fields:
 - `[CLASSIFICATION]` = \"OFFICIAL\" (UK Gov) or \"PUBLIC\"
 
 Include the generation metadata footer:
-```
+
+```text
 **Generated by**: ArcKit `/arckit:gcp-research` agent
 **Generated on**: {DATE}
 **ArcKit Version**: {VERSION from ~/.gemini/extensions/arckit/VERSION}
@@ -190,6 +204,7 @@ Include the generation metadata footer:
 ### Step 11: Return Summary
 
 Return ONLY a concise summary including:
+
 - Project name and file path created
 - Google Cloud services recommended (table: category, service, configuration, monthly estimate)
 - Architecture pattern used
@@ -217,4 +232,14 @@ Return ONLY a concise summary including:
 ## Important Notes
 
 - **Markdown escaping**: When writing less-than or greater-than comparisons, always include a space after `<` or `>` (e.g., `< 3 seconds`, `> 99.9% uptime`) to prevent markdown renderers from interpreting them as HTML tags or emoji
+
+## Suggested Next Steps
+
+After completing this command, consider running:
+
+- `/arckit:diagram` -- Create Google Cloud architecture diagrams
+- `/arckit:devops` -- Design Cloud Build pipeline
+- `/arckit:finops` -- Create Google Cloud cost management strategy
+- `/arckit:adr` -- Record Google Cloud service selection decisions
+
 """

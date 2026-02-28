@@ -40,6 +40,7 @@
 **NCSC Cyber Assessment Framework (CAF) Score**: [X/14 objectives met]
 
 **Key Security Findings**:
+
 - [Summary of critical security gaps]
 - [Summary of security strengths]
 - [Blocking security issues for next phase]
@@ -64,6 +65,7 @@
 [Describe security governance structure]
 
 **Security Governance**:
+
 - [ ] Senior leadership owns information security
 - [ ] Senior Information Risk Owner (SIRO) appointed
 - [ ] Security policies and standards defined
@@ -72,6 +74,7 @@
 - [ ] Security oversight and reporting in place
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -83,6 +86,7 @@
 [Describe risk management approach]
 
 **Risk Management Process**:
+
 - [ ] Information assets identified and classified
 - [ ] Threats and vulnerabilities assessed
 - [ ] Risk assessment methodology defined
@@ -91,6 +95,7 @@
 - [ ] Residual risks accepted by SIRO
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -102,6 +107,7 @@
 [Describe asset inventory and management]
 
 **Asset Management**:
+
 - [ ] Hardware inventory maintained
 - [ ] Software inventory maintained
 - [ ] Data assets catalogued
@@ -110,6 +116,7 @@
 - [ ] Secure disposal procedures
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -121,6 +128,7 @@
 [Describe supply chain security]
 
 **Supply Chain Security**:
+
 - [ ] Supplier security requirements defined
 - [ ] Supplier security assessments conducted
 - [ ] Contracts include security obligations
@@ -129,6 +137,7 @@
 - [ ] Open source software risks managed
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -144,6 +153,7 @@
 [Describe protective security policies]
 
 **Protection Policies**:
+
 - [ ] Acceptable Use Policy
 - [ ] Access Control Policy
 - [ ] Data Protection Policy
@@ -152,6 +162,7 @@
 - [ ] Cryptography Policy
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -163,6 +174,7 @@
 [Describe access control implementation]
 
 **Access Controls**:
+
 - [ ] User accounts managed centrally
 - [ ] Multi-factor authentication (MFA) enabled
 - [ ] Privileged access management (PAM)
@@ -174,6 +186,7 @@
 **Authentication Method**: [GOV.UK Verify / Azure AD / Other]
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -185,6 +198,7 @@
 [Describe data protection measures]
 
 **Data Protection**:
+
 - [ ] Data classification scheme implemented
 - [ ] Encryption at rest (AES-256 minimum)
 - [ ] Encryption in transit (TLS 1.3 minimum)
@@ -197,6 +211,7 @@
 **DPIA Completed**: [Yes / No / N/A]
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -208,6 +223,7 @@
 [Describe system hardening and security]
 
 **System Hardening**:
+
 - [ ] Secure baseline configurations
 - [ ] Unnecessary services disabled
 - [ ] Security patches applied timely
@@ -219,6 +235,7 @@
 **Operating Systems**: [Windows / Linux / macOS / Mixed]
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -230,6 +247,7 @@
 [Describe network architecture and security]
 
 **Network Security**:
+
 - [ ] Network segmentation by function/sensitivity
 - [ ] Firewalls at network boundaries
 - [ ] Intrusion Detection/Prevention Systems (IDS/IPS)
@@ -241,6 +259,7 @@
 **Network Architecture**: [On-premise / Cloud / Hybrid]
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -252,6 +271,7 @@
 [Describe security awareness program]
 
 **Security Training**:
+
 - [ ] Mandatory security awareness training
 - [ ] Phishing awareness training
 - [ ] Role-based security training
@@ -263,6 +283,7 @@
 **Training Completion Rate**: [X%]
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -278,6 +299,7 @@
 [Describe monitoring capabilities]
 
 **Monitoring Capabilities**:
+
 - [ ] Centralized logging (SIEM)
 - [ ] Real-time security alerting
 - [ ] Log retention (minimum 12 months)
@@ -289,6 +311,7 @@
 **SIEM Solution**: [Splunk / Sentinel / ELK / Other / None]
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -300,17 +323,26 @@
 [Describe proactive threat hunting]
 
 **Proactive Measures**:
+
 - [ ] Threat hunting activities
 - [ ] Vulnerability scanning (weekly/monthly)
+- [ ] NCSC VMS enrolled and alerts actioned
 - [ ] Penetration testing (annual minimum)
 - [ ] Red team exercises
 - [ ] Security posture reviews
 - [ ] Threat modeling
 
+**NCSC Vulnerability Monitoring Service (VMS)**:
+
+- **VMS Enrollment Status**: [Enrolled / Not Enrolled / In Progress]
+- **VMS Coverage**: [Number of domains/IPs monitored]
+- **VMS Alert Handling**: [Process for triaging and actioning VMS alerts]
+
 **Last Penetration Test**: [Date / Not Conducted]
 **Pen Test Findings**: [Critical: X, High: Y, Medium: Z, Low: W]
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -326,6 +358,7 @@
 [Describe incident response and recovery plans]
 
 **Incident Response**:
+
 - [ ] Incident response plan documented
 - [ ] Incident response team defined
 - [ ] Incident classification scheme
@@ -337,6 +370,7 @@
 **IR Plan Last Tested**: [Date / Not Tested]
 
 **Business Continuity**:
+
 - [ ] Business continuity plan (BCP)
 - [ ] Disaster recovery plan (DRP)
 - [ ] Recovery time objective (RTO) defined
@@ -347,6 +381,7 @@
 **RPO**: [X hours]
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -358,6 +393,7 @@
 [Describe continuous improvement process]
 
 **Continuous Improvement**:
+
 - [ ] Post-incident reviews conducted
 - [ ] Security metrics tracked
 - [ ] Security improvements implemented
@@ -366,6 +402,7 @@
 - [ ] Security roadmap maintained
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -391,6 +428,7 @@
 | **Patch Management** | [✅/⚠️/❌] | [Description] |
 
 **Cyber Essentials Plus Additional Requirements**:
+
 - [ ] External vulnerability scan passed
 - [ ] Internal vulnerability scan passed
 - [ ] System configuration review passed
@@ -398,6 +436,7 @@
 **Target Certification Level**: [Basic / Plus]
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -412,6 +451,7 @@
 **ICO Registration**: [Required / Not Required / Completed]
 
 **UK GDPR Compliance**:
+
 - [ ] Lawful basis for processing identified
 - [ ] Privacy notice published
 - [ ] Data subject rights procedures
@@ -425,6 +465,7 @@
 **Special Category Data**: [Yes / No]
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -435,6 +476,7 @@
 **DPIA Status**: [Completed / In Progress / Not Started / N/A]
 
 **DPIA Findings**:
+
 - High risks identified: [Number]
 - Mitigations implemented: [Number]
 - Residual risks accepted: [Yes/No by whom]
@@ -442,6 +484,7 @@
 **ICO Consultation Required**: [Yes / No]
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -454,6 +497,7 @@
 **Development Methodology**: [Agile / Waterfall / DevOps]
 
 **Secure Development Practices**:
+
 - [ ] Secure coding standards defined
 - [ ] Security requirements in user stories
 - [ ] Threat modeling in design phase
@@ -464,6 +508,7 @@
 - [ ] Dependency vulnerability scanning
 
 **OWASP Top 10 Mitigation**:
+
 - [ ] Injection flaws prevented
 - [ ] Broken authentication prevented
 - [ ] Sensitive data exposure prevented
@@ -476,12 +521,14 @@
 - [ ] Insufficient logging and monitoring addressed
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
 ### 4.2 DevSecOps
 
 **CI/CD Security Integration**:
+
 - [ ] Automated security testing in pipeline
 - [ ] Secrets scanning (no hardcoded credentials)
 - [ ] Container image scanning
@@ -490,6 +537,7 @@
 - [ ] Automated deployment security checks
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -506,6 +554,7 @@
 **Data Residency**: [UK / EU / Other]
 
 **Cloud Security Controls**:
+
 - [ ] Cloud Security Posture Management (CSPM)
 - [ ] Identity and Access Management (IAM)
 - [ ] Encryption key management
@@ -517,6 +566,7 @@
 **NCSC Cloud Security Principles**: [X/14 principles met]
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -531,6 +581,7 @@
 **Scanning Coverage**: [X% of assets]
 
 **Vulnerability Management Process**:
+
 - [ ] Automated vulnerability scanning
 - [ ] Vulnerability prioritization (CVSS scores)
 - [ ] Remediation SLAs defined
@@ -539,24 +590,52 @@
 - [ ] Metrics and reporting
 
 **Remediation SLAs**:
+
 - Critical vulnerabilities: [Within X days]
 - High vulnerabilities: [Within X days]
 - Medium vulnerabilities: [Within X days]
 - Low vulnerabilities: [Within X days]
 
+#### VMS Integration
+
+**NCSC Vulnerability Monitoring Service (VMS) Status**:
+
+- [ ] Department enrolled in VMS
+- [ ] All internet-facing domains registered with VMS
+- [ ] VMS alerts integrated into vulnerability management workflow
+- [ ] VMS remediation benchmarks adopted as departmental targets
+- [ ] Regular review of VMS dashboard and reports
+
+**VMS Remediation Benchmarks**:
+
+| Metric | NCSC Benchmark | Departmental Target | Current Performance |
+|--------|---------------|---------------------|---------------------|
+| Domain-specific vulnerability fix time | 8 days | [Target] | [Current] |
+| General vulnerability fix time | 32 days | [Target] | [Current] |
+
+**VMS Coverage Metrics**:
+
+- Domains monitored: [Number]
+- IP ranges monitored: [Number]
+- Coverage of internet-facing assets: [X%]
+- Open VMS alerts: [Number]
+
 **Current Vulnerability Status**:
+
 - Critical: [Number]
 - High: [Number]
 - Medium: [Number]
 - Low: [Number]
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
 ### 6.2 Patch Management
 
 **Patch Management Process**:
+
 - [ ] Patch assessment and testing
 - [ ] Patch deployment schedule
 - [ ] Emergency patching process
@@ -568,6 +647,7 @@
 **Critical Patch SLA**: [Within 14 days]
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -578,6 +658,7 @@
 ### 7.1 Third-Party Risk Management
 
 **Third-Party Security Assessment**:
+
 - [ ] Vendor security questionnaires
 - [ ] Vendor security certifications verified
 - [ ] Data Processing Agreements (DPAs) in place
@@ -593,6 +674,7 @@
 | [Vendor 2] | [Service] | [High/Med/Low] | [H/M/L] | [Controls] |
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -601,6 +683,7 @@
 **Open Source Components**: [Number]
 
 **OSS Security Controls**:
+
 - [ ] Software Bill of Materials (SBOM)
 - [ ] Automated dependency scanning
 - [ ] Known vulnerability detection (CVE)
@@ -608,6 +691,7 @@
 - [ ] OSS component lifecycle management
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -620,6 +704,7 @@
 **Backup Method**: [3-2-1 rule / Continuous replication / Snapshot / Other]
 
 **Backup Controls**:
+
 - [ ] Automated backups scheduled
 - [ ] Backup encryption enabled
 - [ ] Offsite/cloud backups
@@ -636,6 +721,7 @@
 **Last Restoration Test**: [Date]
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -649,6 +735,7 @@
 **Recovery Success Rate**: [X%]
 
 **Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -670,10 +757,12 @@
 | [System 2] | [Planned / In Progress / Complete] | [Date / N/A] | [Summary] | [Open / In Progress / Closed] |
 
 **Assessment Findings**:
+
 - [Key finding 1]
 - [Key finding 2]
 
 **Remediation Actions**:
+
 - [ ] [Action 1 - Owner - Due date]
 - [ ] [Action 2 - Owner - Due date]
 
@@ -692,6 +781,7 @@
 | **Secure Operation** | [✅/⚠️/❌] | [Description] |
 
 **High-Confidence Profile Achievement**:
+
 - [ ] Security is embedded throughout the development lifecycle
 - [ ] Threat modelling conducted and reviewed regularly
 - [ ] Security testing integrated into CI/CD pipelines
@@ -718,6 +808,33 @@
 **Exceptions Under Active Improvement Plan**: [Number]
 
 **Gaps/Actions**:
+
+- [Action 1]
+- [Action 2]
+
+### 9.4 Cyber Action Plan Alignment
+
+> The [£210m Government Cyber Action Plan](https://www.gov.uk/government/publications/government-cyber-action-plan) (February 2026) is a cross-government investment programme across four pillars. This section tracks departmental and project alignment.
+
+**Departmental Status**: [Participating / Not Yet Enrolled / N/A]
+
+**Pillar Alignment**:
+
+| Cyber Action Plan Pillar | Departmental Activities | Project Alignment | Status |
+|--------------------------|------------------------|-------------------|--------|
+| **Skills & Workforce** | [Cyber Academy enrollment, CCP certification, training programmes] | [Project security training activities] | [✅/⚠️/❌] |
+| **Tooling & Infrastructure** | [Security tooling investments, VMS adoption, SIEM upgrades] | [Project security tooling] | [✅/⚠️/❌] |
+| **Resilience & Response** | [Incident response capability, DR improvements, threat intelligence] | [Project resilience measures] | [✅/⚠️/❌] |
+| **Collaboration & Sharing** | [Cross-government threat sharing, sector collaboration] | [Project information sharing] | [✅/⚠️/❌] |
+
+**Investment Alignment**:
+
+- [ ] Department has submitted Cyber Action Plan investment case
+- [ ] Project security budget aligns with Cyber Action Plan priorities
+- [ ] Funding opportunities identified for project security improvements
+
+**Gaps/Actions**:
+
 - [Action 1]
 - [Action 2]
 
@@ -733,10 +850,10 @@
 | 2. Risk-based approach to protective security | Section 1 (CAF A2 Risk Management), `/arckit:risk` | [✅/⚠️/❌] |
 | 3. Security integrated into all activities | Sections 4–5 (Secure Development, Cloud Security) | [✅/⚠️/❌] |
 | 4. Holistic security planning across disciplines | Sections 1–8 (CAF full assessment), `/arckit:plan` | [✅/⚠️/❌] |
-| 5. Security culture embedded in organisation | Section 1 (CAF B6 Staff Awareness) | [✅/⚠️/❌] |
+| 5. Security culture embedded in organisation | Section 1 (CAF B6 Staff Awareness), Section 11 (Cyber Security Profession) | [✅/⚠️/❌] |
 | 6. Accountability at all levels | Approval & Sign-Off (SSRO, DSO, SIRO roles) | [✅/⚠️/❌] |
 | 7. Proportionate security measures | Executive Summary (data classification → controls) | [✅/⚠️/❌] |
-| 8. Continuous improvement of security posture | Section 1 (CAF D2 Improvements), `/arckit:operationalize` | [✅/⚠️/❌] |
+| 8. Continuous improvement of security posture | Section 1 (CAF D2 Improvements), Section 9.4 (Cyber Action Plan), `/arckit:operationalize` | [✅/⚠️/❌] |
 | 9. Compliance with legal/regulatory obligations | Section 3 (UK GDPR), `/arckit:dpia` | [✅/⚠️/❌] |
 
 ### Security Roles (GovS 007)
@@ -747,6 +864,59 @@
 | Senior Security Risk Owner (SSRO) | [Name] | Owns protective security risk at board level |
 | Departmental Security Officer (DSO) | [Name] | Day-to-day security coordination and policy implementation |
 | Senior Information Risk Owner (SIRO) | [Name] | Owns information and cyber security risk |
+
+---
+
+## 11. Government Cyber Security Profession
+
+> The [Government Cyber Security Profession](https://www.gov.uk/government/publications/government-cyber-security-profession) establishes a career framework, Certified Cyber Professional (CCP) certification, and the Government Cyber Academy for building cyber security capability across government. This section assesses the project's alignment with profession requirements.
+
+### 11.1 Profession Participation
+
+**Department Enrolled in Cyber Security Profession**: [Yes / No / In Progress]
+
+| Metric | Value |
+|--------|-------|
+| **CCP-certified staff in department** | [Number] |
+| **CCP-certified staff on this project** | [Number] |
+| **Cyber Academy completions (department)** | [Number] |
+| **Cyber Academy completions (project team)** | [Number] |
+
+### 11.2 Project Security Role Mapping
+
+| Security Role | Role Holder | CCP Status | DDaT Role Alignment | Notes |
+|---------------|-------------|------------|---------------------|-------|
+| Security Architect | [Name] | [Certified / In Progress / Not Started] | [DDaT role] | |
+| Security Engineer | [Name] | [Certified / In Progress / Not Started] | [DDaT role] | |
+| Security Operations Lead | [Name] | [Certified / In Progress / Not Started] | [DDaT role] | |
+| Penetration Tester | [Name] | [Certified / In Progress / Not Started] | [DDaT role] | |
+| Incident Responder | [Name] | [Certified / In Progress / Not Started] | [DDaT role] | |
+
+### 11.3 Government Cyber Academy Engagement
+
+| Learning Area | Completions | Target | Status |
+|---------------|-------------|--------|--------|
+| Cyber Security Fundamentals | [Number] | [Target] | [✅/⚠️/❌] |
+| Secure Development | [Number] | [Target] | [✅/⚠️/❌] |
+| Security Operations | [Number] | [Target] | [✅/⚠️/❌] |
+| Incident Response | [Number] | [Target] | [✅/⚠️/❌] |
+| Risk Management | [Number] | [Target] | [✅/⚠️/❌] |
+
+### 11.4 Workforce Development Plan
+
+**Workforce Development Checklist**:
+
+- [ ] Security roles mapped to DDaT profession framework
+- [ ] CCP certification targets set for project security staff
+- [ ] Cyber Academy learning paths assigned to team members
+- [ ] Security skills gap analysis completed
+- [ ] Training budget allocated for cyber security upskilling
+- [ ] Succession planning for key security roles
+
+**Actions**:
+
+- [ ] [Action 1 - Owner - Due date]
+- [ ] [Action 2 - Owner - Due date]
 
 ---
 
@@ -765,10 +935,12 @@
 ### Security Posture Summary
 
 **Strengths**:
+
 - [Strength 1]
 - [Strength 2]
 
 **Critical Gaps**:
+
 - [Gap 1 - blocks progression to next phase]
 - [Gap 2 - unacceptable risk level]
 
@@ -783,14 +955,17 @@
 ### Recommendations
 
 **Critical Priority** (0-30 days - must resolve before next phase):
+
 - [Recommendation 1 - Owner - Due date]
 - [Recommendation 2 - Owner - Due date]
 
 **High Priority** (1-3 months - significant risk reduction):
+
 - [Recommendation 1 - Owner - Due date]
 - [Recommendation 2 - Owner - Due date]
 
 **Medium Priority** (3-6 months - continuous improvement):
+
 - [Recommendation 1 - Owner - Due date]
 - [Recommendation 2 - Owner - Due date]
 
@@ -799,14 +974,17 @@
 ## Next Steps and Action Plan
 
 **Immediate Actions** (0-30 days):
+
 - [ ] [Action 1 - Owner - Due date]
 - [ ] [Action 2 - Owner - Due date]
 
 **Short-term Actions** (1-3 months):
+
 - [ ] [Action 1 - Owner - Due date]
 - [ ] [Action 2 - Owner - Due date]
 
 **Long-term Actions** (3-12 months):
+
 - [ ] [Action 1 - Owner - Due date]
 - [ ] [Action 2 - Owner - Due date]
 
@@ -828,6 +1006,7 @@
 ---
 
 **Document Control**:
+
 - **Version**: 1.0
 - **Classification**: [OFFICIAL / OFFICIAL-SENSITIVE]
 - **Last Reviewed**: [Date]
@@ -840,6 +1019,10 @@
 |----------|------|--------|-----------------|------|
 | Government Functional Standard GovS 007: Security | Policy | Cabinet Office | 9 security principles, security lifecycle, protective security disciplines | https://www.gov.uk/government/publications/government-functional-standard-govs-007-security |
 | UK Government Cyber Security Standard | Policy | Cabinet Office (July 2025) | CAF profiles, GovAssure, SbD confidence, exception management | https://www.gov.uk/government/publications/government-cyber-security-standard |
+| NCSC Vulnerability Monitoring Service (VMS) | Service | NCSC | Vulnerability scanning, 8-day domain / 32-day general remediation benchmarks | https://www.ncsc.gov.uk/information/vulnerability-monitoring-service |
+| Government Cyber Action Plan | Policy | Cabinet Office (February 2026) | £210m investment, four pillars: Skills, Tooling, Resilience, Collaboration | https://www.gov.uk/government/publications/government-cyber-action-plan |
+| Government Cyber Security Profession | Framework | Cabinet Office | CCP certification, DDaT alignment, career framework | https://www.gov.uk/government/publications/government-cyber-security-profession |
+| Government Cyber Academy | Training | Cabinet Office | Cyber security learning areas, professional development | https://www.gov.uk/government/publications/government-cyber-academy |
 | *None provided* | — | — | — | — |
 
 ---

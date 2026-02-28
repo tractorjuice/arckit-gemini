@@ -14,6 +14,7 @@ This extension is installed at `~/.gemini/extensions/arckit/`. Key directories:
 ### Template Override
 
 Users can customize templates by placing overrides in their project:
+
 - **Project override**: `.arckit/templates/{template-name}` (takes precedence)
 - **Extension default**: `~/.gemini/extensions/arckit/templates/{template-name}` (fallback)
 
@@ -21,7 +22,7 @@ When a command reads a template, check `.arckit/templates/` first. If not found,
 
 ## Command Invocation
 
-```
+```text
 /arckit:<command-name> <arguments>
 ```
 
@@ -71,8 +72,9 @@ Version | Date | Author | Changes | Approved By | Approval Date
 ### Document ID Generation
 
 Use the helper script:
+
 ```bash
-~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh <PROJECT_ID> <DOC_CODE> <VERSION>
+python3 ~/.gemini/extensions/arckit/scripts/python/generate-document-id.py <PROJECT_ID> <DOC_CODE> <VERSION>
 ```
 
 With `--filename` flag for the full filename with `.md` extension. With `--next-num` for multi-instance types (ADR, DIAG, WARD, DMC).
@@ -81,7 +83,7 @@ With `--filename` flag for the full filename with `.md` extension. With `--next-
 
 ArcKit projects use this structure:
 
-```
+```text
 project/
 ├── .arckit/
 │   └── templates/            # User template overrides (optional)
@@ -100,14 +102,15 @@ project/
 ### Creating Projects
 
 Use the helper script to create numbered project directories:
+
 ```bash
-~/.gemini/extensions/arckit/scripts/bash/create-project.sh --name "Project Name" --json
+python3 ~/.gemini/extensions/arckit/scripts/python/create-project.py --name "Project Name" --json
 ```
 
 ### Listing Projects
 
 ```bash
-~/.gemini/extensions/arckit/scripts/bash/list-projects.sh --json
+python3 ~/.gemini/extensions/arckit/scripts/python/list-projects.py --json
 ```
 
 ## Requirement ID Prefixes
@@ -125,6 +128,7 @@ Stakeholders -> Goals -> Requirements (BR/FR/NFR/INT/DR) -> Data Model -> Compon
 ## UK Government Context
 
 Many commands target UK public sector contexts:
+
 - **GDS Service Standard** (14 points)
 - **Technology Code of Practice** (TCoP)
 - **NCSC Cyber Assessment Framework** (CAF)
@@ -142,6 +146,7 @@ Use OnlineWardleyMaps syntax for visualization at https://create.wardleymaps.ai
 ## MCP Servers
 
 This extension bundles MCP servers for cloud research:
+
 - **AWS Knowledge**: AWS service documentation and best practices
 - **Microsoft Learn**: Azure and Microsoft documentation
 - **Google Developer Knowledge**: GCP documentation (requires `GOOGLE_API_KEY` setting)

@@ -6,7 +6,7 @@ prompt = """
 This command runs as a Gemini CLI extension. The extension directory (`~/.gemini/extensions/arckit/`) is outside the workspace sandbox, so you CANNOT use the read_file tool to access it. Instead:
 - To read templates/files: use a shell command, e.g. `cat ~/.gemini/extensions/arckit/templates/foo-template.md`
 - To list files: use `ls ~/.gemini/extensions/arckit/templates/`
-- To run scripts: use `bash ~/.gemini/extensions/arckit/scripts/bash/create-project.sh --json`
+- To run scripts: use `python3 ~/.gemini/extensions/arckit/scripts/python/create-project.py --json`
 - To check file existence: use `test -f ~/.gemini/extensions/arckit/templates/foo-template.md && echo exists`
 All extension file access MUST go through shell commands.
 
@@ -15,6 +15,7 @@ You are helping an enterprise architect generate a **Data Protection Impact Asse
 A DPIA is a **legal requirement** under UK GDPR Article 35 for processing that is likely to result in a high risk to individuals' rights and freedoms. It systematically assesses privacy risks, evaluates necessity and proportionality, and identifies mitigations.
 
 ## User Input
+
 ```text
 {{args}}
 ```
@@ -26,16 +27,19 @@ A DPIA is a **legal requirement** under UK GDPR Article 35 for processing that i
 ### Step 0: Read existing artifacts from the project context
 
 **MANDATORY** (warn if missing):
+
 - **DATA** (Data Model) — Extract: all entities with PII/special category data, data subjects, GDPR Article 6 lawful basis, Article 9 conditions, retention periods, data flows, data classifications
   - If missing: STOP and warn user to run `/arckit:data-model` first — a DPIA requires a data model to identify personal data processing
 
 **RECOMMENDED** (read if available, note if missing):
+
 - **PRIN** (Architecture Principles, in 000-global) — Extract: Privacy by Design principles, data minimization principles, security principles
   - If missing: warn that DPIAs should be informed by Privacy by Design principles
 - **REQ** (Requirements) — Extract: DR (data requirements), NFR-SEC (security), NFR-C (compliance/GDPR)
 - **STKE** (Stakeholder Analysis) — Extract: data subject categories, vulnerable groups, RACI for data governance roles (DPO, Data Controller, Data Processors)
 
 **OPTIONAL** (read if available, skip silently):
+
 - **RISK** (Risk Register) — Extract: data protection risks, privacy risks already identified
 - **SECD** (Secure by Design) — Extract: security controls relevant to data protection
 
@@ -52,12 +56,14 @@ Before generating the DPIA, use the **AskUserQuestion** tool to gather the asses
 
 **Question 1** — header: `Scope`, multiSelect: false
 > \"What is the scope of this Data Protection Impact Assessment?\"
+
 - **Full system (Recommended)**: Assess all personal data processing across the entire system — required for new systems or major changes
 - **Specific feature or module**: Assess a single feature that introduces new personal data processing (e.g., a new AI profiling feature)
 - **Specific data flow**: Assess a particular data flow involving personal data (e.g., third-party data sharing, international transfer)
 
 **Question 2** — header: `Consultation`, multiSelect: false
 > \"How should data subject consultation be approached?\"
+
 - **Surveys (Recommended)**: Online questionnaires to affected user groups — scalable and documented
 - **Interviews**: One-on-one or small group discussions — deeper insights for sensitive processing
 - **Workshops**: Facilitated sessions with representative data subjects — collaborative and thorough
@@ -67,13 +73,14 @@ Apply the user's selections: the scope determines which data model entities and 
 
 ### Step 1: Identify or Create Project
 
-Identify the target project from the hook context. If the user specifies a project that doesn't exist yet, create it:
+Identify the target project from the hook context. If the user specifies a project that doesn't exist yet, create a new project:
 
-```bash
-bash ~/.gemini/extensions/arckit/scripts/bash/create-project.sh --name \"$PROJECT_NAME\" --json
-```
-
-Parse the JSON output to get `project_id` and `project_path`.
+1. Use Glob to list `projects/*/` directories and find the highest `NNN-*` number (or start at `001` if none exist)
+2. Calculate the next number (zero-padded to 3 digits, e.g., `002`)
+3. Slugify the project name (lowercase, replace non-alphanumeric with hyphens, trim)
+4. Use the Write tool to create `projects/{NNN}-{slug}/README.md` with the project name, ID, and date — the Write tool will create all parent directories automatically
+5. Also create `projects/{NNN}-{slug}/external/README.md` with a note to place external reference documents here
+6. Set `PROJECT_ID` = the 3-digit number, `PROJECT_PATH` = the new directory path
 
 ### Step 2: Read Source Artifacts
 
@@ -84,6 +91,7 @@ Read all documents listed in Step 0 above. Use the extracted information for aut
 Read the DPIA template:
 
 **Read the template** (with user override support):
+
 - **First**, check if `.arckit/templates/dpia-template.md` exists in the project root
 - **If found**: Read the user's customized template (user override takes precedence)
 - **If not found**: Run `cat ~/.gemini/extensions/arckit/templates/dpia-template.md` to read the file (default)
@@ -109,13 +117,14 @@ Based on the data model analysis, automatically score the ICO 9 criteria:
 | 9 | **Prevents rights exercise** | YES if: No mechanism for SAR/deletion/portability in data model |
 
 **DPIA Decision Rules**:
+
 - **2+ criteria met**: DPIA REQUIRED (UK GDPR Article 35)
 - **1 criterion met**: DPIA RECOMMENDED (good practice)
 - **0 criteria met**: DPIA NOT REQUIRED (but consider Data Privacy Notice)
 
 Show the screening results to the user:
 
-```
+```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📋 DPIA Screening Results (ICO 9 Criteria)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -206,14 +215,16 @@ Generate the DPIA by:
 
 9. **Section 7: ICO Consultation**:
    - If any residual risks remain HIGH after mitigations, flag for ICO prior consultation:
-     ```
+
+     ```text
      ⚠️  ICO Prior Consultation Required:
      - Risk DPIA-003 (Unauthorized profiling of children) remains HIGH after mitigations
      - Contact ICO before processing: https://ico.org.uk/make-a-complaint/your-personal-information-concerns/
      ```
 
 10. **Section 8: Sign-off and Approval**:
-   - Leave signature fields blank (to be signed by Data Controller, DPO, Senior Responsible Owner)
+
+- Leave signature fields blank (to be signed by Data Controller, DPO, Senior Responsible Owner)
 
 11. **Section 9: Review and Monitoring**:
     - Set review triggers: 12 months, major system changes, data breaches, ICO guidance updates
@@ -253,7 +264,7 @@ Generate the DPIA by:
 
 Write the complete DPIA document to:
 
-```
+```text
 projects/{project_id}/ARC-{PROJECT_ID}-DPIA-v${VERSION}.md
 ```
 
@@ -261,7 +272,7 @@ projects/{project_id}/ARC-{PROJECT_ID}-DPIA-v${VERSION}.md
 
 Ask the user:
 
-```
+```text
 📊 DPIA generated with [N] risks identified.
 
 Would you like to add DPIA risks to the project risk register?
@@ -271,6 +282,7 @@ This will create/update: projects/{project_id}/ARC-*-RISK-*.md
 ```
 
 If YES:
+
 1. Read `projects/{project_id}/ARC-*-RISK-*.md` (or create from template if it doesn't exist)
 2. Add each DPIA risk as a new entry with:
    - Risk ID: DPIA-001, DPIA-002, etc.
@@ -283,7 +295,7 @@ If YES:
 
 **IMPORTANT**: Do NOT output the full DPIA document to the chat (it's too large). Instead, show a concise summary:
 
-```
+```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ DPIA Generated Successfully
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -413,7 +425,7 @@ If YES:
 
 ## Example Usage
 
-```
+```text
 /arckit:dpia Generate DPIA for NHS appointment booking system
 
 /arckit:dpia Create data protection impact assessment for HMRC chatbot handling taxpayer queries

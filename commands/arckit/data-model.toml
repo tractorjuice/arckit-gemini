@@ -6,7 +6,7 @@ prompt = """
 This command runs as a Gemini CLI extension. The extension directory (`~/.gemini/extensions/arckit/`) is outside the workspace sandbox, so you CANNOT use the read_file tool to access it. Instead:
 - To read templates/files: use a shell command, e.g. `cat ~/.gemini/extensions/arckit/templates/foo-template.md`
 - To list files: use `ls ~/.gemini/extensions/arckit/templates/`
-- To run scripts: use `bash ~/.gemini/extensions/arckit/scripts/bash/create-project.sh --json`
+- To run scripts: use `python3 ~/.gemini/extensions/arckit/scripts/python/create-project.py --json`
 - To check file existence: use `test -f ~/.gemini/extensions/arckit/templates/foo-template.md && echo exists`
 All extension file access MUST go through shell commands.
 
@@ -43,7 +43,13 @@ You are helping an enterprise architect create a comprehensive data model for a 
 
 2. **Identify the target project**:
    - Use the **ArcKit Project Context** (above) to find the project matching the user's input (by name or number)
-   - If no match, run `~/.gemini/extensions/arckit/scripts/bash/create-project.sh --name \"$PROJECT_NAME\" --json` to create a new project and parse the JSON output
+   - If no match, create a new project:
+     1. Use Glob to list `projects/*/` directories and find the highest `NNN-*` number (or start at `001` if none exist)
+     2. Calculate the next number (zero-padded to 3 digits, e.g., `002`)
+     3. Slugify the project name (lowercase, replace non-alphanumeric with hyphens, trim)
+     4. Use the Write tool to create `projects/{NNN}-{slug}/README.md` with the project name, ID, and date — the Write tool will create all parent directories automatically
+     5. Also create `projects/{NNN}-{slug}/external/README.md` with a note to place external reference documents here
+     6. Set `PROJECT_ID` = the 3-digit number, `PROJECT_PATH` = the new directory path
 
 3. **Read external documents and policies**:
    - Read any **external documents** listed in the project context (`external/` files) — extract entity definitions, relationships, data types, constraints, existing schemas, migration requirements
@@ -96,12 +102,14 @@ You are helping an enterprise architect create a comprehensive data model for a 
      - **Estimated Volume**: Initial records + growth rate
      - **Retention Period**: How long data is kept (GDPR requirement)
      - **Attributes Table**:
-       ```
+
+       ```text
        | Attribute | Type | Required | PII | Description | Validation | Source Req |
        |-----------|------|----------|-----|-------------|------------|------------|
        | customer_id | UUID | Yes | No | Unique identifier | UUID v4 | DR-001 |
        | email | String(255) | Yes | Yes | Contact email | RFC 5322, unique | DR-002 |
        ```
+
      - **Relationships**: What other entities this connects to
      - **Indexes**: Primary key, foreign keys, performance indexes
      - **Privacy Notes**: GDPR considerations, data subject rights
@@ -119,12 +127,14 @@ You are helping an enterprise architect create a comprehensive data model for a 
    **E. CRUD Matrix** (Create, Read, Update, Delete):
    - Map which components/systems can perform which operations on each entity
    - Example:
-     ```
+
+     ```text
      | Entity | Payment API | Admin Portal | Reporting Service | CRM Integration |
      |--------|-------------|--------------|-------------------|-----------------|
      | E-001: Customer | CR-- | CRUD | -R-- | -R-- |
      | E-002: Transaction | CR-- | -R-- | -R-- | ---- |
      ```
+
    - Helps identify unauthorized access patterns and data flows
 
    **F. Data Integration Mapping**:
@@ -167,13 +177,15 @@ You are helping an enterprise architect create a comprehensive data model for a 
 
    **I. Requirements Traceability**:
    - Create traceability table:
-     ```
+
+     ```text
      | Requirement | Entity | Attributes | Rationale |
      |-------------|--------|------------|-----------|
      | DR-001 | E-001: Customer | customer_id, email, name | Store customer identity |
      | DR-002 | E-002: Transaction | transaction_id, amount, status | Track payments |
      | NFR-SEC-003 | E-001: Customer | password_hash (encrypted) | Secure authentication |
      ```
+
    - Show how every DR-xxx requirement maps to entities/attributes
    - Flag any DR-xxx requirements NOT yet modeled (gaps)
 
@@ -202,14 +214,12 @@ You are helping an enterprise architect create a comprehensive data model for a 
    - Include all sections even if some are TBD
    - Create comprehensive entity catalog with ALL attributes
 
-
-
-
 **IMPORTANT - Auto-Populate Document Information Fields**:
 
 Before completing the document, populate document information fields:
 
-### Auto-populated fields:
+### Auto-populated fields
+
 - `[PROJECT_ID]` → Extract from project path (e.g., \"001\")
 - `[VERSION]` → Start with \"1.0\" for new documents
 - `[DATE]` / `[YYYY-MM-DD]` → Current date in YYYY-MM-DD format
@@ -218,16 +228,19 @@ Before completing the document, populate document information fields:
 - `[STATUS]` → \"DRAFT\" for new documents
 - `[CLASSIFICATION]` → Default to \"OFFICIAL\" (UK Gov) or \"PUBLIC\"
 
-### User-provided fields:
+### User-provided fields
+
 - `[PROJECT_NAME]` → Full project name
 - `[OWNER_NAME_AND_ROLE]` → Document owner
 
-### Revision History:
+### Revision History
+
 ```markdown
 | 1.0 | {DATE} | ArcKit AI | Initial creation from `/arckit:data-model` command |
 ```
 
-### Generation Metadata Footer:
+### Generation Metadata Footer
+
 ```markdown
 **Generated by**: ArcKit `/arckit:data-model` command
 **Generated on**: {DATE}
@@ -236,22 +249,23 @@ Before completing the document, populate document information fields:
 **AI Model**: [Actual model name]
 ```
 
-
 10. **Summarize what you created**:
-   - How many entities defined (E-001, E-002, etc.)
-   - How many total attributes across all entities
-   - How many entities contain PII (privacy-sensitive)
-   - Data classification breakdown (Public/Internal/Confidential/Restricted)
-   - GDPR compliance status (compliant / needs DPIA / gaps identified)
-   - Key data governance stakeholders identified
-   - Requirements coverage (% of DR-xxx requirements modeled)
-   - Suggested next steps (e.g., \"Review data model with data protection officer before proceeding to HLD\" or \"Run `/arckit:hld-review` to validate database technology choices\")
+
+- How many entities defined (E-001, E-002, etc.)
+- How many total attributes across all entities
+- How many entities contain PII (privacy-sensitive)
+- Data classification breakdown (Public/Internal/Confidential/Restricted)
+- GDPR compliance status (compliant / needs DPIA / gaps identified)
+- Key data governance stakeholders identified
+- Requirements coverage (% of DR-xxx requirements modeled)
+- Suggested next steps (e.g., \"Review data model with data protection officer before proceeding to HLD\" or \"Run `/arckit:hld-review` to validate database technology choices\")
 
 ## Example Usage
 
 User: `/arckit:data-model Create data model for payment gateway project`
 
 You should:
+
 - Check prerequisites (requirements document exists, stakeholder analysis recommended)
 - Find project directory (e.g., `projects/001-payment-gateway-modernization/`)
 - Extract DR-xxx requirements from the requirements document
@@ -372,6 +386,7 @@ After writing the file, show ONLY a concise summary:
 ```
 
 **Statistics to Include**:
+
 - Number of entities
 - Number of relationships
 - Number of PII attributes
@@ -381,4 +396,14 @@ After writing the file, show ONLY a concise summary:
 - Compliance frameworks applicable
 
 Generate the data model now, write to file using Write tool, and show only the summary above.
+
+## Suggested Next Steps
+
+After completing this command, consider running:
+
+- `/arckit:hld-review` -- Validate database technology choices
+- `/arckit:dld-review` -- Validate schema design and query patterns
+- `/arckit:sow` -- Include data migration and governance in RFP
+- `/arckit:traceability` -- Map DR-xxx to entities and attributes
+
 """

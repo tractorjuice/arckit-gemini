@@ -6,7 +6,7 @@ prompt = """
 This command runs as a Gemini CLI extension. The extension directory (`~/.gemini/extensions/arckit/`) is outside the workspace sandbox, so you CANNOT use the read_file tool to access it. Instead:
 - To read templates/files: use a shell command, e.g. `cat ~/.gemini/extensions/arckit/templates/foo-template.md`
 - To list files: use `ls ~/.gemini/extensions/arckit/templates/`
-- To run scripts: use `bash ~/.gemini/extensions/arckit/scripts/bash/create-project.sh --json`
+- To run scripts: use `python3 ~/.gemini/extensions/arckit/scripts/python/create-project.py --json`
 - To check file existence: use `test -f ~/.gemini/extensions/arckit/templates/foo-template.md && echo exists`
 All extension file access MUST go through shell commands.
 
@@ -23,6 +23,7 @@ You are helping a user customize ArcKit document templates for their project or 
 ArcKit uses document templates to generate consistent architecture artifacts. Users can customize these templates by copying them to `~/.gemini/extensions/arckit/templates/`. When a template exists in the custom directory, it takes precedence over the default template.
 
 **Template locations:**
+
 - **Defaults**: `~/.gemini/extensions/arckit/templates/` (shipped with ArcKit, refreshed by `arckit init`)
 - **User overrides**: `~/.gemini/extensions/arckit/templates/` (your customizations, preserved across updates)
 
@@ -31,6 +32,7 @@ ArcKit uses document templates to generate consistent architecture artifacts. Us
 ### 1. **Parse User Request**
 
 The user may request:
+
 - **List templates**: Show all available templates (no arguments or \"list\")
 - **Copy specific template**: Copy one template (e.g., \"requirements\", \"risk\", \"adr\")
 - **Copy all templates**: Copy all templates (\"all\")
@@ -38,11 +40,7 @@ The user may request:
 
 ### 2. **List Available Templates**
 
-If user wants to see available templates, list them from `~/.gemini/extensions/arckit/templates/`:
-
-```bash
-ls -1 ~/.gemini/extensions/arckit/templates/*.md | xargs -n1 basename | sed 's/-template\\.md$//'
-```
+If user wants to see available templates, use Glob to find `~/.gemini/extensions/arckit/templates/*-template.md` and `~/.gemini/extensions/arckit/templates/*-template.html`, then extract the template name from each filename (strip the `-template.md`/`.html` suffix).
 
 Display as a table:
 
@@ -97,47 +95,22 @@ Display as a table:
 
 ### 3. **Copy Template(s)**
 
-**Create user templates directory:**
-```bash
-mkdir -p .arckit/templates-custom
-```
-
 **Copy specific template:**
-```bash
-# Map short name to full filename
-TEMPLATE_NAME=\"$USER_INPUT\"  # e.g., \"requirements\"
 
-# Determine file extension — pages template is HTML, all others are Markdown
-if [[ \"$TEMPLATE_NAME\" == \"pages\" ]]; then
-    EXT=\"html\"
-else
-    EXT=\"md\"
-fi
-
-SOURCE=\"~/.gemini/extensions/arckit/templates/${TEMPLATE_NAME}-template.${EXT}\"
-DEST=\".arckit/templates/${TEMPLATE_NAME}-template.${EXT}\"
-
-# Check if source exists
-if [[ -f \"$SOURCE\" ]]; then
-    cp \"$SOURCE\" \"$DEST\"
-    echo \"✅ Copied ${TEMPLATE_NAME}-template.${EXT} to .arckit/templates/\"
-else
-    echo \"❌ Template not found: ${TEMPLATE_NAME}\"
-    echo \"Run '/arckit:customize list' to see available templates\"
-fi
-```
+1. Map the user's short name to the full filename (e.g., \"requirements\" → `requirements-template.md`, \"pages\" → `pages-template.html`)
+2. Use the Read tool to read the source template from `~/.gemini/extensions/arckit/templates/{name}-template.{ext}`
+3. Use the Write tool to save it to `.arckit/templates/{name}-template.{ext}` (the directory will be created automatically)
+4. If the source template does not exist, inform the user and suggest running `/arckit:customize list`
 
 **Copy all templates:**
-```bash
-mkdir -p .arckit/templates
-cp ~/.gemini/extensions/arckit/templates/*-template.md .arckit/templates/
-cp ~/.gemini/extensions/arckit/templates/*-template.html .arckit/templates/
-echo \"✅ Copied all templates to .arckit/templates/\"
-```
+
+1. Use Glob to find all `~/.gemini/extensions/arckit/templates/*-template.md` and `~/.gemini/extensions/arckit/templates/*-template.html` files
+2. For each template found, use Read to load it and Write to save it to `.arckit/templates/`
 
 ### 4. **Show Template Info**
 
 If user asks about a specific template (e.g., \"info requirements\"), read and summarize:
+
 - What document it generates
 - Key sections included
 - UK Government frameworks referenced
@@ -196,30 +169,14 @@ When ArcKit CLI updates with new template features:
 - Your customizations in `~/.gemini/extensions/arckit/templates/` are **preserved**
 - Compare your templates with defaults periodically to adopt new features
 
-To see the current default template:
-\\`\\`\\`bash
-cat ~/.gemini/extensions/arckit/templates/{name}-template.md
-\\`\\`\\`
+To see the current default template, use the Read tool on `~/.gemini/extensions/arckit/templates/{name}-template.md`.
 
-To compare with your customization:
-\\`\\`\\`bash
-diff ~/.gemini/extensions/arckit/templates/{name}-template.md ~/.gemini/extensions/arckit/templates/{name}-template.md
-\\`\\`\\`
+To compare your customization with the default, read both files and compare the content.
 
 ### Reverting to Default
 
-To stop using a custom template and revert to default:
-\\`\\`\\`bash
-rm ~/.gemini/extensions/arckit/templates/{name}-template.md
-\\`\\`\\`
+To stop using a custom template and revert to default, delete `~/.gemini/extensions/arckit/templates/{name}-template.md`.
 
-### Git Recommendations
-
-Commit your customized templates to share with your team:
-\\`\\`\\`bash
-git add ~/.gemini/extensions/arckit/templates/
-git commit -m \"Add organization-specific document templates\"
-\\`\\`\\`
 ```
 
 ## Output Summary
@@ -241,33 +198,38 @@ After completing the request, show:
 2. Run the corresponding `/arckit:*` command
 3. Your customized template will be used automatically
 
-**Tip**: Use `diff ~/.gemini/extensions/arckit/templates/{name}-template.md ~/.gemini/extensions/arckit/templates/{name}-template.md` to compare with the default.
+**Tip**: Read both the default and your custom template to compare differences.
 ```
 
 ## Example Usage
 
 **List all templates:**
-```
+
+```text
 /arckit:customize list
 ```
 
 **Copy requirements template:**
-```
+
+```text
 /arckit:customize requirements
 ```
 
 **Copy multiple templates:**
-```
+
+```text
 /arckit:customize requirements risk adr
 ```
 
 **Copy all templates:**
-```
+
+```text
 /arckit:customize all
 ```
 
 **Get info about a template:**
-```
+
+```text
 /arckit:customize info requirements
 ```
 """

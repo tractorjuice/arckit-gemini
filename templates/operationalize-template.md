@@ -256,10 +256,12 @@ flowchart TD
 **Purpose**: Gracefully start or stop the service
 
 **Prerequisites**:
+
 - SSH access to servers or kubectl access to cluster
 - Deployment credentials
 
 **Start Procedure**:
+
 ```bash
 # 1. Verify dependencies are available
 curl -f https://[dependency]/health
@@ -277,6 +279,7 @@ curl -f https://[service]/health
 ```
 
 **Stop Procedure**:
+
 ```bash
 # 1. Remove from load balancer (graceful drain)
 [kubectl annotate service [service] "drain=true"]
@@ -304,6 +307,7 @@ curl -f https://[service]/health
 **Detection**: Alert "[Service] Health Check Failed"
 
 **Steps**:
+
 ```bash
 # 1. Check service status
 [kubectl get pods -l app=[service]]
@@ -338,6 +342,7 @@ curl -f https://[cache-host]:[port]/health
 **Detection**: Alert "Error Rate > [X]%"
 
 **Steps**:
+
 ```bash
 # 1. Check error breakdown by type
 # In [Logging Tool], search:
@@ -375,6 +380,7 @@ curl -f https://[cache-host]:[port]/health
 **Detection**: Alert "Latency p95 > [X]ms"
 
 **Steps**:
+
 ```bash
 # 1. Check current resource usage
 [kubectl top pods -l app=[service]]
@@ -412,6 +418,7 @@ curl -f https://[cache-host]:[port]/health
 **Detection**: Errors indicate dependency unavailable
 
 **Steps**:
+
 ```bash
 # 1. Confirm dependency is down
 curl -f https://[dependency]/health
@@ -445,6 +452,7 @@ curl -f https://[dependency]/health
 **Detection**: Security alert from SIEM or manual report
 
 **Steps**:
+
 ```bash
 # 1. DO NOT modify evidence - preserve logs and state
 
@@ -469,6 +477,58 @@ curl -f https://[dependency]/health
 ```
 
 **Escalation**: ALWAYS escalate security incidents to Security team
+
+---
+
+### 6.7 Critical Vulnerability Remediation
+
+**Purpose**: Respond to critical CVEs or NCSC VMS alerts requiring urgent patching
+
+**Prerequisites**:
+
+- Access to vulnerability scanner / VMS dashboard
+- Deployment credentials for affected systems
+- Emergency change approval authority (Security Lead + Service Owner)
+
+**Detection**: Critical CVE published, VMS critical alert, or vulnerability scanner finding with CVSS >= 9.0
+
+**Steps**:
+
+```bash
+# 1. Confirm vulnerability applies to this service
+# Check affected software/library versions against inventory
+# [Package manager or SBOM query]
+
+# 2. Assess exposure
+# Is the vulnerable component internet-facing?
+# Is the vulnerability being actively exploited?
+
+# 3. Obtain emergency change approval
+# Contact: Security Lead + Service Owner
+# Reference: CVE-YYYY-XXXXX
+
+# 4. Apply patch in non-production first
+# [Deploy patch to staging environment]
+# [Run automated test suite]
+
+# 5. Deploy patch to production
+# [Follow deployment procedure - Section 12]
+# [Use emergency patching window if outside normal schedule]
+
+# 6. Verify remediation
+# Re-scan affected systems
+# Confirm vulnerability no longer detected
+
+# 7. Update VMS / vulnerability tracker
+# Close vulnerability ticket
+# Record remediation time for SLA reporting
+```
+
+**Verification**: Vulnerability scanner confirms fix; VMS alert cleared (if applicable)
+
+**Escalation**: If patch unavailable, escalate to Security Lead for compensating controls (WAF rules, network isolation, service degradation)
+
+**Rollback**: If patch causes service issues, follow rollback procedure (Section 12) and apply compensating controls instead
 
 ---
 
@@ -513,6 +573,7 @@ flowchart TB
 **Trigger Criteria**: Primary site unavailable for >[X] minutes
 
 **Steps**:
+
 1. **Declare DR Event**: Incident Commander authorizes failover
 2. **Verify DR Readiness**: Check DR site health and replication lag
 3. **Stop Primary** (if possible): Prevent split-brain
@@ -668,11 +729,90 @@ curl -f https://[service]/health
 | API keys | 90 days | [Date] | [Runbook link] |
 | SSL certificates | Before expiry | [Date] | [Runbook link] |
 
-### Security Patching
+### 11.3 Vulnerability Scanning
 
-- **OS Patches**: [Weekly / Monthly] via [automation tool]
-- **Application Dependencies**: [Weekly] via [Dependabot / Renovate]
-- **Critical Patches**: Within [24/48/72] hours of CVE
+**Scanning Tools**:
+
+| Tool | Scope | Frequency | Owner |
+|------|-------|-----------|-------|
+| [Tool 1] | Infrastructure | [Daily / Weekly] | [Team] |
+| [Tool 2] | Application (DAST) | [Weekly / Monthly] | [Team] |
+| [Tool 3] | Dependencies (SCA) | [Continuous / Daily] | [Team] |
+
+**Scanning Configuration**:
+
+- [ ] All production systems in scanning scope
+- [ ] Authenticated scanning enabled for web applications
+- [ ] Scanning schedules aligned with change windows
+- [ ] False positive suppression rules documented
+
+**NCSC Vulnerability Monitoring Service (VMS) Integration** (UK Government):
+
+- [ ] Department enrolled in NCSC VMS
+- [ ] All internet-facing domains registered with VMS
+- [ ] VMS alerts routed to vulnerability management workflow
+- [ ] VMS dashboard reviewed [weekly / fortnightly]
+
+### 11.4 Vulnerability Remediation SLAs
+
+**Severity-Based SLAs**:
+
+| Severity | CVSS Range | Remediation SLA | VMS Benchmark | Current Performance |
+|----------|-----------|-----------------|---------------|---------------------|
+| Critical | 9.0–10.0 | 24 hours | — | [Current] |
+| High | 7.0–8.9 | 7 days | — | [Current] |
+| Medium | 4.0–6.9 | 30 days | — | [Current] |
+| Low | 0.1–3.9 | 90 days | — | [Current] |
+| VMS Domain-specific | — | 8 days | 8 days | [Current] |
+| VMS General | — | 32 days | 32 days | [Current] |
+
+**Remediation Process**:
+
+1. Vulnerability identified (scanner / VMS alert / manual report)
+2. Triage and severity classification
+3. Assign to remediation owner
+4. Fix developed and tested in non-production
+5. Deploy fix per deployment process (Section 12)
+6. Verify remediation (re-scan)
+7. Close vulnerability ticket
+
+**Current Vulnerability Status**:
+
+- Critical open: [Number]
+- High open: [Number]
+- Medium open: [Number]
+- Low open: [Number]
+- Overdue remediations: [Number]
+
+### 11.5 Patch Management
+
+**Patch Schedule**:
+
+| Patch Type | Frequency | Window | Approval |
+|------------|-----------|--------|----------|
+| OS security patches | [Weekly / Monthly] | [Day, Time UTC] | [Auto / Manual] |
+| Application dependencies | [Weekly] via [Dependabot / Renovate] | [Day, Time UTC] | [Auto / Manual] |
+| Firmware updates | [Quarterly] | [Maintenance window] | [Manual] |
+
+**Patching Process**:
+
+1. Patch released by vendor
+2. Assessed for applicability and risk
+3. Tested in non-production environment
+4. Deployed to production per schedule
+5. Compliance verified
+
+**Emergency Patching**:
+
+- **Critical CVEs**: Within 24 hours of CVE publication
+- **Approval**: Security Lead + Service Owner
+- **Process**: Follow Critical Vulnerability Remediation runbook (Section 6.7)
+
+**Patch Compliance Metrics**:
+
+- Patch compliance rate: [X%]
+- Average patch lag (days): [X]
+- Systems with overdue patches: [Number]
 
 ### Security Contacts
 
@@ -754,35 +894,44 @@ curl -f https://[service]/health
 ## 14. Handover Checklist
 
 ### Documentation
+
 - [ ] All runbooks written and reviewed
 - [ ] Architecture documentation complete
 - [ ] API documentation published
 - [ ] Knowledge base articles created
 
 ### Monitoring & Alerting
+
 - [ ] Dashboards created and tested
 - [ ] Alerts configured and tested
 - [ ] On-call rotation staffed and documented
 - [ ] Escalation paths confirmed
 
 ### Operations
+
 - [ ] Support team trained
 - [ ] Access provisioned for support team
 - [ ] Runbooks tested by support team
 - [ ] Communication channels established
 
 ### DR & Backup
+
 - [ ] DR tested within last 6 months
 - [ ] Backup restore tested
 - [ ] RTO/RPO validated
 
 ### Security
+
 - [ ] Security review completed
 - [ ] Penetration test completed
 - [ ] Access controls verified
 - [ ] Credential rotation scheduled
+- [ ] VMS enrolled and scanning active (UK Government)
+- [ ] Vulnerability remediation SLAs documented and agreed
+- [ ] Critical vulnerability remediation runbook tested
 
 ### Sign-off
+
 - [ ] Service Owner approval
 - [ ] Technical Lead approval
 - [ ] Operations Lead approval
@@ -816,6 +965,8 @@ curl -f https://[service]/health
 - [ ] Logging and monitoring per NCSC guidelines
 - [ ] Incident response aligned with NCSC framework
 - [ ] Secure by Design principles in operations
+- [ ] NCSC VMS enrolled with all internet-facing assets registered
+- [ ] VMS remediation benchmarks adopted (8-day domain, 32-day general)
 
 ### Cross-Government Dependencies
 
@@ -851,6 +1002,7 @@ curl -f https://[service]/health
 
 | Document | Type | Source | Key Extractions | Path |
 |----------|------|--------|-----------------|------|
+| NCSC Vulnerability Monitoring Service (VMS) | Service | NCSC | Vulnerability scanning, 8-day domain / 32-day general remediation benchmarks | https://www.ncsc.gov.uk/information/vulnerability-monitoring-service |
 | *None provided* | — | — | — | — |
 
 ---
