@@ -1,5 +1,7 @@
 # Vendor Profile: {VENDOR_NAME}
 
+> **Template Origin**: Official | **ArcKit Version**: [VERSION] | **Command**: `/arckit.research`
+
 ## Document Control
 
 | Field | Value |

@@ -1,5 +1,7 @@
 # Service Owner — ArcKit Command Guide
 
+> **Guide Origin**: Official | **ArcKit Version**: [VERSION]
+
 > **DDaT Role Family**: [Product and Delivery](https://ddat-capability-framework.service.gov.uk/role/service-owner)
 > **Framework**: [UK Government DDaT Capability Framework](https://ddat-capability-framework.service.gov.uk/)
 
@@ -46,7 +48,7 @@ requirements → servicenow → operationalize → service-assessment → story
 
 - `ARC-{PID}-SNOW-v*.md` — ServiceNow service design
 - `ARC-{PID}-OPS-v*.md` — Operational readiness pack
-- `ARC-{PID}-SASS-v*.md` — Service assessment report
+- `ARC-{PID}-SVCASS-v*.md` — Service assessment report
 
 ## Related Roles
 

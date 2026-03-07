@@ -1,6 +1,6 @@
 # GDS Service Assessment Preparation Report
 
-> **Template Status**: Beta | **Version**: [VERSION] | **Command**: `/arckit.service-assessment`
+> **Template Origin**: Official | **ArcKit Version**: [VERSION] | **Command**: `/arckit.service-assessment`
 
 ## Document Control
 
