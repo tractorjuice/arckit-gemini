@@ -1,5 +1,5 @@
 description = """
-[COMMUNITY] Assess Austrian NISG 2024 obligations — AT transposition of NIS2, BMI/GovCERT reporting, KSÖ coordination, and Austrian sectoral rules for Essential/Important entities
+[COMMUNITY] Assess Austrian NISG obligations (BGBl. I Nr. 94/2025) — AT transposition of NIS2, BKA (GovCERT) / BMI (SPOC) reporting, KSÖ coordination, and Austrian sectoral rules for Essential/Important entities
 """
 prompt = """
 **IMPORTANT — Gemini Extension File Access**:
@@ -11,9 +11,9 @@ This command runs as a Gemini CLI extension. The extension directory (`~/.gemini
 - To check file existence: use `test -f ~/.gemini/extensions/arckit/templates/foo-template.md && echo exists`
 All extension file access MUST go through shell commands.
 
-> ⚠️ **Community-contributed command** — not part of the officially-maintained ArcKit baseline. Output should be reviewed by qualified CISO / BMI-liaison / Rechtsabteilung before reliance. Citations to BMI / A-SIT / EU regulations may lag the current text — verify against the source. Items marked `[NEEDS VERIFICATION]` must be confirmed against the **current NISG 2024 text and implementing ordinances** before external use — the legislation is recent and evolving.
+> ⚠️ **Community-contributed command** — not part of the officially-maintained ArcKit baseline. Output should be reviewed by qualified CISO / BMI-liaison / Rechtsabteilung before reliance. Citations to BMI / A-SIT / EU regulations may lag the current text — verify against the source. Items marked `[NEEDS VERIFICATION]` must be confirmed against the **current NISG text (idF BGBl. I Nr. 94/2025) and implementing ordinances** before external use — the legislation is recent and evolving.
 
-You are helping an enterprise architect generate an **Austrian NISG Compliance Assessment** — the Austrian transposition of NIS2 (EU Directive 2022/2555). The Austrian Netz- und Informationssystemsicherheitsgesetz (NISG 2024, replacing NISG 2018) extends NIS2 obligations with Austria-specific designation, reporting, and supervision rules. Run this after `/arckit.eu-nis2` to add Austrian obligations that go beyond the EU baseline.
+You are helping an enterprise architect generate an **Austrian NISG Compliance Assessment** — the Austrian transposition of NIS2 (EU Directive 2022/2555). The Austrian Netz- und Informationssystemsicherheitsgesetz (NISG, BGBl. I Nr. 111/2018 idF BGBl. I Nr. 94/2025) extends NIS2 obligations with Austria-specific designation, reporting, and supervision rules. Run this after `/arckit.eu-nis2` to add Austrian obligations that go beyond the EU baseline.
 
 ## User Input
 
@@ -68,7 +68,7 @@ Read all documents from Step 0. Identify:
 - Sector (NIS2 Annex I Essential / Annex II Important / out of scope)
 - Organisation size (>250 employees / 50–250 / <50)
 - Operation in Austria (seat, subsidiary, critical service delivery in AT)
-- Sector-specific Austrian designation status (e.g. E-Control for electricity, FMA for finance, ELGA/BMSGPK for health) `[NEEDS VERIFICATION: confirm current competent authorities under NISG 2024]`
+- Sector-specific Austrian designation status (E-Control for energy, FMA for finance, BMSGPK for health, BMK for transport, RTR for digital infrastructure, BMI for federal public admin)
 - Financial sector involvement (DORA overlap)
 
 ### Step 3: Template Reading
@@ -89,9 +89,9 @@ Before generating the assessment, determine entity classification:
 
 **Austrian additions or scope differences**:
 
-- Austria may designate additional entities under NISG 2024 based on criticality assessment `[NEEDS VERIFICATION: confirm NISG 2024 additions vs EU baseline]`
-- Public-administration scope includes federal and Land-level bodies — verify which Landesgesetze interact with NISG obligations `[NEEDS VERIFICATION]`
-- Special regimes continue for previously designated Betreiber wesentlicher Dienste under NISG 2018 — transition rules apply `[NEEDS VERIFICATION: confirm NISG 2024 transition clauses]`
+- Austria may designate additional entities under NISG based on criticality assessment (§3 Abs. 4: Bundeskanzler can designate regardless of size threshold)
+- Public-administration scope: Federal bodies in scope by default; Land-level bodies can opt in via Landeshauptmann declaration (§22 Abs. 5-6) — check whether the relevant Land has opted in
+- Special regimes continue for previously designated Betreiber wesentlicher Dienste under NISG 2018 — entities designated under old §16 transition automatically; new Essential/Important classification applies from entry into force of BGBl. I Nr. 94/2025
 
 **Size thresholds** (NIS2 carried into NISG):
 
@@ -142,22 +142,22 @@ Show entity classification before generating the full document.
      8. Cryptography policy
      9. HR security and access control
      10. MFA and secure communications
-   - A-SIT guidance alignment where applicable `[NEEDS VERIFICATION: confirm current A-SIT publications]`
+   - A-SIT guidance alignment where applicable (A-SIT publishes sector-agnostic security guidance; not a regulatory body but commonly referenced by BMI and sectoral authorities)
    - Proportionality assessment: measures proportionate to entity size and risk
    - Extract existing controls from SECD artifact to pre-populate status
 
 6. **Section 4: Incident Reporting — Austrian Channel**
-   - Report to **GovCERT.gv.at** (federal CERT) and/or sectoral CERT as applicable `[NEEDS VERIFICATION: confirm GovCERT/BKÄ/BMI channel under NISG 2024]`
+   - Three-tier CERT reporting: **Sectoral CERT** (if designated, e.g. Energy-CERT) → **National CERT** (CERT.at, operative under BMI §5) → **GovCERT** (BKA §4(4), public-admin entities only). Non-public entities report to CERT.at / sectoral CERT; GovCERT handles federal and Land public-admin entities
    - Four-stage NIS2 reporting timeline (24h early warning, 72h notification, intermediate on request, 1-month final report)
    - Austrian form and language requirements for reports
    - Cross-reporting to DSB if personal data breach (Art. 33 GDPR + NISG)
-   - Tabletop / exercise expectations from BMI `[NEEDS VERIFICATION]`
+   - Tabletop / exercise expectations from BMI (§25 Cyberkrise exercises; BMI coordinates nationally)
 
 7. **Section 5: Supply Chain Security**
    - Supplier inventory and risk assessment requirements
    - Contractual security clause requirements
    - Software supply chain requirements
-   - ENISA supply chain framework plus any AT-specific sectoral guidance (e.g. E-Control secondary rules for energy) `[NEEDS VERIFICATION]`
+   - ENISA supply chain framework plus AT-specific sectoral guidance (e.g. E-Control Verordnungen for energy sector, FMA Rundschreiben for financial sector)
    - EU coordinated risk assessment outcomes (5G, high-risk vendors)
 
 8. **Section 6: Business Continuity and Resilience**
@@ -169,13 +169,13 @@ Show entity classification before generating the full document.
 9. **Section 7: Supervision, Inspections, and Penalties**
    - Supervisory regime: BMI / competent sectoral authority inspections
    - Ex ante (Essential) vs ex post (Important) supervision posture
-   - Maximum penalties — EU baseline plus any AT-specific uplift `[NEEDS VERIFICATION: confirm NISG 2024 penalty ceilings]`
+   - Maximum penalties — NIS2 Art. 34 floor: Essential ≥ €10,000,000 or 2% worldwide annual turnover; Important ≥ €7,000,000 or 1.4% worldwide annual turnover (old NISG §26 €50K/€100K replaced by 2025 amendment)
    - Right to be heard / appeals (BVwG pathway)
    - Responsible entities for internal governance (CISO / Sicherheitsbeauftragter designation)
 
 10. **Section 8: KSÖ and National Cyber Coordination** *(informational)*
     - KSÖ (Kuratorium Sicheres Österreich) as national PPP forum — voluntary but influential
-    - National Cyber Security Centre (NCSC-AT) / GovCERT roles `[NEEDS VERIFICATION]`
+    - NCSC-AT (part of BKA) / GovCERT (BKA §4(4)) — strategic coordination and public-admin CERT; BMI (§5-6) — operative CERT.at, SPOC toward EU, and enforcement authority
     - Participation options and information-sharing expectations
 
 11. **Section 9: Gap Analysis and Roadmap**
@@ -233,8 +233,8 @@ Next steps:
 ## Important Notes
 
 - **Run after eu-nis2**: This command adds the Austrian layer. For best results, run `/arckit.eu-nis2` first.
-- **NISG 2024 is recent and evolving**: Citations are marked `[NEEDS VERIFICATION]` where they depend on provisions likely to shift via implementing ordinances. An AT cyber practitioner must confirm before external reliance.
-- **Management body liability**: NIS2 makes management body members personally liable — the AT penalty regime and defensibility posture need confirmation `[NEEDS VERIFICATION]`.
+- **NISG amendment is recent**: The NIS2 transposition (BGBl. I Nr. 94/2025) is recent. Implementing ordinances (Verordnungen) from sectoral regulators may still be forthcoming. An AT cyber practitioner must confirm before external reliance.
+- **Management body liability**: NIS2 Art. 20 makes Geschäftsleitung personally liable for approving and overseeing cybersecurity measures. Under the 2025 NISG amendment, management bodies must complete cybersecurity training. Penalties for entities: Essential ≥ €10M / 2% turnover, Important ≥ €7M / 1.4% turnover (NIS2 Art. 34 floor).
 - **24-hour reporting capability**: The 24-hour early warning window is tight. Flag if no 24/7 incident detection and reporting capability exists.
 - **KSÖ is voluntary but strategic**: Participation in Kuratorium Sicheres Österreich is not a legal obligation, but it is the main national PPP forum and is often expected of designated entities.
 - **DORA overlap for financial sector**: Austrian financial entities face both NISG and DORA. Use `/arckit.eu-dora` to map the overlap; DORA generally takes precedence for ICT resilience obligations.

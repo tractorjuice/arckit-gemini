@@ -80,16 +80,16 @@ Read all documents from Step 0. Extract key information for the procurement file
 
 ### Step 4: Threshold Analysis
 
-Before generating the document, determine the applicable procedure. **EU thresholds are updated every 2 years (most recent update: applicable from 2024)** — confirm the current values in the latest EU Regulation and in the §12 BVergG 2018 transposition `[NEEDS VERIFICATION: confirm current thresholds]`.
+Before generating the document, determine the applicable procedure. **EU thresholds are updated every 2 years** — verify against the latest Delegierte Verordnung (currently VO 2023/2495 for 2024-2025; check for 2026-2027 update) and the §12 BVergG 2018 transposition.
 
-| Threshold Tier | Indicative Auftragswert (excl. VAT) `[NEEDS VERIFICATION]` | Procedure | Publication |
-|----------------|-----------------------------------------------------------|-----------|-------------|
+| Threshold Tier | Indicative Auftragswert (excl. VAT) | Procedure | Publication |
+|----------------|--------------------------------------|-----------|-------------|
 | **Direktvergabe** | < €100,000 | Direct award (no formal procedure) | Informal |
 | **Direktvergabe mit Bekanntmachung** | €100,000 — €130,000 | Direct award with notice | ANKÖ |
 | **Unterschwellenbereich** (non-open) | Up to EU threshold | Verhandlungsverfahren / nicht-offen | ANKÖ |
-| **Oberschwellenbereich — classical sector** (supplies/services) | ≥ ~€221,000 `[NEEDS VERIFICATION]` | Offenes / Nicht-offenes Verfahren / Verhandlungsverfahren | ANKÖ + TED |
-| **Oberschwellenbereich — Sektorenauftraggeber** (supplies/services) | ≥ ~€443,000 `[NEEDS VERIFICATION]` | Sektor rules | ANKÖ + TED |
-| **Bauaufträge (Works)** — Oberschwellenbereich | ≥ ~€5.54M `[NEEDS VERIFICATION]` | Same as supplies/services | ANKÖ + TED |
+| **Oberschwellenbereich — classical** (supplies/services, sub-central) | ≥ €221,000 | Offenes / Nicht-offenes Verfahren / Verhandlungsverfahren | ANKÖ + TED |
+| **Oberschwellenbereich — Sektorenauftraggeber** (supplies/services) | ≥ €443,000 | Sektor rules | ANKÖ + TED |
+| **Bauaufträge (Works)** — Oberschwellenbereich | ≥ €5,538,000 | Same as supplies/services | ANKÖ + TED |
 
 Show threshold determination to the user before generating the full document. Confirm:
 
@@ -126,7 +126,7 @@ Show threshold determination to the user before generating the full document. Co
    - Integration scope (INT-xxx)
    - Data sovereignty and location requirements
    - Open standards and interoperability requirements
-   - Barrier-free / Web Content Accessibility (WAG / WCAG) requirements `[NEEDS VERIFICATION: confirm AT WAG transposition status]`
+   - Barrier-free / Accessibility (§107 BVergG / EN 301 549 / WCAG 2.2) requirements
 
 5. **Section 3: Eignung (Suitability Criteria)**
    - Berufliche Zuverlässigkeit (trade registration, no Ausschlussgründe under §78 BVergG)
@@ -154,7 +154,7 @@ Show threshold determination to the user before generating the full document. Co
 8. **Section 6: Publication and Timeline**
    - ANKÖ publication (mandatory for most above-threshold)
    - TED publication for Oberschwellenbereich
-   - Minimum Angebotsfrist per §87 BVergG (open procedure, classical sector)
+   - Minimum Angebotsfrist per §§71–76 BVergG (above-threshold open procedure: min. 30 days, classical sector)
    - Bidder question window (Bewerberfragen) and answers (Q&A published to all)
    - Opening session (Angebotsöffnung) formalities
    - Standstill period (Stillhaltefrist) and notifications
