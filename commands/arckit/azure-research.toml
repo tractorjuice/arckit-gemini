@@ -97,7 +97,8 @@ Detect if UK Government project (look for \"UK Government\", \"Ministry of\", \"
 
 ### Step 3: Read Template
 
-- Run `cat ~/.gemini/extensions/arckit/templates/azure-research-template.md` to read the file for output structure
+- First, check `.arckit/templates-custom/azure-research-template.md` (user override)
+- If not found, read `~/.gemini/extensions/arckit/templates/azure-research-template.md` (default)
 
 ### Step 4: Extract Requirements for Azure Mapping
 
@@ -275,7 +276,7 @@ Return ONLY a concise summary including:
 
 ## Toolchain
 
-- **Templates** — `~/.gemini/extensions/arckit/templates/azure-research-template.md`
+- **Templates** — `~/.gemini/extensions/arckit/templates/azure-research-template.md` (override at `.arckit/templates-custom/azure-research-template.md`)
 - **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` · `~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh`
 - **MCP server** — `microsoft-learn` (docs search, docs fetch, code sample search)
 - **External tools** — `WebSearch` · `WebFetch` (STANDALONE-mode fallback when MCP unavailable)

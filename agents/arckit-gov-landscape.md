@@ -81,7 +81,10 @@ Find the project directory in `projects/` (user may specify name/number, otherwi
 
 ### Step 2: Read Template
 
-Run `cat ~/.gemini/extensions/arckit/templates/gov-landscape-template.md` to read the file for the output structure.
+Read the template with user override support:
+
+- First, check `.arckit/templates-custom/gov-landscape-template.md` (user override)
+- If not found, read `~/.gemini/extensions/arckit/templates/gov-landscape-template.md` (default)
 
 ### Step 3: Define the Domain
 
@@ -340,7 +343,7 @@ Return ONLY a concise summary including:
 
 ## Toolchain
 
-- **Templates** — `~/.gemini/extensions/arckit/templates/gov-landscape-template.md`
+- **Templates** — `~/.gemini/extensions/arckit/templates/gov-landscape-template.md` (override at `.arckit/templates-custom/gov-landscape-template.md`)
 - **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` · `~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh`
 - **MCP server** — `govreposcrape` (`search_uk_gov_code` over 24,500+ UK government repositories)
 - **External tools** — `WebFetch` (organisation profiles, contributor pages, repo READMEs)

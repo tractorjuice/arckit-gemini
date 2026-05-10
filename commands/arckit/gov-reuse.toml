@@ -1,33 +1,7 @@
----
-name: arckit-gov-reuse
-description: "Use this agent when the user wants to discover reusable UK government\
-  \ open-source code before building from scratch. This agent searches 24,500+ government\
-  \ repositories via govreposcrape and assesses candidates for reusability. Examples:\n\
-  \n<example>\nContext: User has a project and wants to check for existing government\
-  \ code\nuser: \"/arckit:gov-reuse Check for existing government code for appointment\
-  \ booking\"\nassistant: \"I'll launch the gov-reuse agent to search 24,500+ UK government\
-  \ repositories for existing appointment booking implementations and assess their\
-  \ reusability.\"\n<commentary>\nThe gov-reuse agent is ideal here because it performs\
-  \ multiple govreposcrape searches per capability, then uses WebFetch on each candidate's\
-  \ GitHub page to assess reusability. Running as an agent keeps this research isolated.\n\
-  </commentary>\n</example>\n\n<example>\nContext: User wants to avoid rebuilding\
-  \ what government already has\nuser: \"Has anyone in government already built a\
-  \ case management system we could reuse?\"\nassistant: \"I'll launch the gov-reuse\
-  \ agent to search government repositories for case management implementations and\
-  \ assess which ones could be forked, used as a library, or referenced.\"\n<commentary>\n\
-  Any request to find existing government code for reuse should trigger this agent\
-  \ since it involves searching and deep assessment of multiple repositories.\n</commentary>\n\
-  </example>\n\n<example>\nContext: User wants reuse assessment after creating requirements\n\
-  user: \"Before we start building, check what the government has already built for\
-  \ this\"\nassistant: \"I'll launch the gov-reuse agent to systematically search\
-  \ government repositories for each capability in your requirements and produce a\
-  \ reuse assessment.\"\n<commentary>\nPre-build reuse check requires reading requirements,\
-  \ extracting capabilities, and searching for each \u2014 benefits from agent isolation.\n\
-  </commentary>\n</example>\n"
-max_turns: 25
-timeout_mins: 10
----
-
+description = """
+Discover reusable UK government code before building from scratch
+"""
+prompt = """
 **IMPORTANT — Gemini Extension File Access**:
 This command runs as a Gemini CLI extension. The extension directory (`~/.gemini/extensions/arckit/`) is outside the workspace sandbox, so you CANNOT use the read_file tool to access it. Instead:
 
@@ -80,7 +54,7 @@ Scan for external (non-ArcKit) documents the user may have provided:
 
 **Important**: This agent works without external documents. They enhance output quality but are never blocking.
 
-- **Citation traceability**: When referencing content from external documents, follow the citation instructions in `~/.gemini/extensions/arckit/references/citation-instructions.md`. Place inline citation markers (e.g., `[PP-C1]`) next to findings informed by source documents and populate the "External References" section in the template.
+- **Citation traceability**: When referencing content from external documents, follow the citation instructions in `~/.gemini/extensions/arckit/references/citation-instructions.md`. Place inline citation markers (e.g., `[PP-C1]`) next to findings informed by source documents and populate the \"External References\" section in the template.
 
 ### Step 2: Read Available Documents
 
@@ -114,28 +88,28 @@ Read the template with user override support:
 
 Read the requirements document and group FR/NFR/INT requirements by functional area. Each functional area becomes a search target (capability). Examples of how to group:
 
-- FR-001 to FR-010 (booking features) → "appointment booking" capability
-- INT-001 to INT-003 (NHS Spine, GP Connect) → "NHS API integration" capability
-- NFR-SEC-001 to NFR-SEC-005 (authentication) → "government identity authentication" capability
+- FR-001 to FR-010 (booking features) → \"appointment booking\" capability
+- INT-001 to INT-003 (NHS Spine, GP Connect) → \"NHS API integration\" capability
+- NFR-SEC-001 to NFR-SEC-005 (authentication) → \"government identity authentication\" capability
 
 Aim for 5-10 distinct capabilities that represent the meaningful build effort in the project. Avoid overly granular capabilities (one per requirement) — group sensibly.
 
 ### Step 5: Search govreposcrape for Each Capability
 
-For each capability, run multiple govreposcrape searches using query variations. Use `resultMode: "snippets"` for initial discovery, then `resultMode: "full"` for promising hits.
+For each capability, run multiple govreposcrape searches using query variations. Use `resultMode: \"snippets\"` for initial discovery, then `resultMode: \"full\"` for promising hits.
 
 **Query strategy per capability** (aim for 3-5 queries):
 
-- **Specific**: Use precise technical terms (e.g., "FHIR patient appointment booking")
-- **Domain-specific**: Add government/NHS/council context (e.g., "NHS appointment booking GOV.UK")
-- **Broader**: Remove specific terms to widen the net (e.g., "appointment booking system")
-- **Alternative terms**: Use synonyms (e.g., "scheduling booking calendar")
+- **Specific**: Use precise technical terms (e.g., \"FHIR patient appointment booking\")
+- **Domain-specific**: Add government/NHS/council context (e.g., \"NHS appointment booking GOV.UK\")
+- **Broader**: Remove specific terms to widen the net (e.g., \"appointment booking system\")
+- **Alternative terms**: Use synonyms (e.g., \"scheduling booking calendar\")
 
 Good govreposcrape queries are descriptive and domain-specific (3-500 characters). Use natural language descriptions, not keywords. Examples:
 
-- "appointment booking system for NHS patients with GP practices"
-- "UK government identity verification authentication service"
-- "case management workflow system local government"
+- \"appointment booking system for NHS patients with GP practices\"
+- \"UK government identity verification authentication service\"
+- \"case management workflow system local government\"
 
 Collect all results across all queries. Note which queries return the richest results.
 
@@ -148,8 +122,8 @@ For each promising result from govreposcrape (aim for top 3-5 per capability, up
 - **Repository metadata**: Stars, forks, language, last updated, contributor count
 - **Test coverage indicators**: Presence of test directories, CI badges, coverage reports
 - **Documentation quality**: Presence of docs/ folder, wiki, API docs, deployment guides
-- **Last commit date**: Fetch the main page to see "last commit X days/months ago"
-- **Installation method**: For Library candidates, extract the exact install command from README (e.g., `npm install govuk-frontend`, `pip install notifications-python-client`). For Fork candidates, note the clone URL and setup prerequisites. Include as a "Quick Start" field in the candidate card.
+- **Last commit date**: Fetch the main page to see \"last commit X days/months ago\"
+- **Installation method**: For Library candidates, extract the exact install command from README (e.g., `npm install govuk-frontend`, `pip install notifications-python-client`). For Fork candidates, note the clone URL and setup prerequisites. Include as a \"Quick Start\" field in the candidate card.
 
 ### Step 7: Score Each Candidate
 
@@ -206,7 +180,7 @@ Based on average score and characteristics, assign a recommended strategy:
 - **Reference** (average >= 2.5): Study the implementation for patterns, approaches, and ideas. Don't reuse the code directly but learn from it.
 - **None** (average < 2.5 OR incompatible license): Not suitable for reuse. Note why briefly.
 
-For each capability, write a **bold verdict line** at the top of its section: "**Verdict: [Strategy] — [one-sentence rationale].**"
+For each capability, write a **bold verdict line** at the top of its section: \"**Verdict: [Strategy] — [one-sentence rationale].**\"
 
 ### Step 9: Build Summary Tables
 
@@ -222,13 +196,13 @@ Create a table mapping EVERY requirement ID from the requirements document to a 
 
 | Requirement ID | Requirement Summary | Capability | Best Candidate | Strategy | Status |
 |---|---|---|---|---|---|
-| FR-001 | [summary] | [Capability name] | [Repo or "—"] | [Fork/Library/Reference/None/Build] | ✅/⚠️/❌ |
+| FR-001 | [summary] | [Capability name] | [Repo or \"—\"] | [Fork/Library/Reference/None/Build] | ✅/⚠️/❌ |
 
 Use status indicators: ✅ = covered by reusable candidate, ⚠️ = partially covered (Reference only), ❌ = no match (build required). Include BR, FR, NFR, INT, and DR requirements. This table ensures no requirement is overlooked and provides a clear coverage percentage.
 
 ### Step 11: Gap Analysis
 
-Identify capabilities where no candidate scored >= 2.5 across all query variations. These are "build from scratch" items. For each gap:
+Identify capabilities where no candidate scored >= 2.5 across all query variations. These are \"build from scratch\" items. For each gap:
 
 - Note the capability
 - Note what was searched (query variations tried)
@@ -238,7 +212,7 @@ Identify capabilities where no candidate scored >= 2.5 across all query variatio
 
 Use Glob to find existing `projects/{project-dir}/research/ARC-{PROJECT_ID}-GOVR-*-v*.md` files. Read the highest version number from filenames.
 
-**If no existing file**: Use VERSION="1.0"
+**If no existing file**: Use VERSION=\"1.0\"
 
 **If existing file found**:
 
@@ -261,8 +235,8 @@ Auto-populate fields:
 - `[PROJECT_ID]` from project path
 - `[VERSION]` = determined version from Step 11
 - `[DATE]` = current date (YYYY-MM-DD)
-- `[STATUS]` = "DRAFT"
-- `[CLASSIFICATION]` = "OFFICIAL" (UK Gov) or "PUBLIC"
+- `[STATUS]` = \"DRAFT\"
+- `[CLASSIFICATION]` = \"OFFICIAL\" (UK Gov) or \"PUBLIC\"
 
 Include the generation metadata footer:
 
@@ -314,3 +288,18 @@ Return ONLY a concise summary including:
 - **MCP server** — `govreposcrape` (`search_uk_gov_code` over 24,500+ UK government repositories)
 - **External tools** — `WebFetch` (GitHub repo pages for deeper assessment)
 - **Related commands** — `/arckit:requirements` (input) · `/arckit:research` (build-vs-buy comparison) · `/arckit:gov-code-search` · `/arckit:gov-landscape`
+
+## User Request
+
+```text
+{{args}}
+```
+
+## Suggested Next Steps
+
+After completing this command, consider running:
+
+- `/arckit:research` -- Feed reuse findings into build vs buy analysis
+- `/arckit:adr` -- Record reuse decisions
+- `/arckit:requirements` -- Refine requirements based on discovered capabilities
+"""
