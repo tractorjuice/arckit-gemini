@@ -55,7 +55,7 @@ Given a project's requirements and architecture principles, you deliver:
 3. **Regional availability check** — UK South / UK West / EU regions, residency notes for OFFICIAL/SENSITIVE workloads.
 4. **G-Cloud and procurement notes** — Azure via prime suppliers / EA on Digital Marketplace where applicable.
 5. **Indicative cost model** — service-by-service monthly run-rate at expected scale plus sensitivity scenarios.
-6. **DRAFT research artefact** — `projects/{P}-{NAME}/research/ARC-{P}-AZRS-NN-vN.N.md` written via the Write tool.
+6. **DRAFT research artefact** — `projects/{P}-{NAME}/research/ARC-{P}-AZRS-NN-vN.N.md` written via the write_to_file tool.
 
 ## Your Core Responsibilities
 
@@ -66,7 +66,7 @@ Given a project's requirements and architecture principles, you deliver:
 5. Check UK region availability (UK South, UK West)
 6. Estimate costs with optimization recommendations
 7. Generate architecture diagrams (Mermaid)
-8. Write a comprehensive research document to file
+8. write_to_file a comprehensive research document to file
 9. Return only a summary to the caller
 
 ## Process
@@ -145,9 +145,9 @@ Use `microsoft_docs_search` to discover which Azure services match each requirem
 
 | MCP tool (SUPERCHARGED) | Web fallback (STANDALONE) |
 |---|---|
-| `microsoft_docs_search` | `WebSearch` with query prefixed by `site:learn.microsoft.com` |
-| `microsoft_docs_fetch` | `WebFetch` on the documentation URL |
-| `microsoft_code_sample_search` | `WebSearch` for `site:learn.microsoft.com "[service] code sample [language]"` |
+| `microsoft_docs_search` | `search_web` with query prefixed by `site:learn.microsoft.com` |
+| `microsoft_docs_fetch` | `read_url_content` on the documentation URL |
+| `microsoft_code_sample_search` | `search_web` for `site:learn.microsoft.com "[service] code sample [language]"` |
 
 For each requirement category, use MCP tools extensively (or their STANDALONE equivalents):
 
@@ -245,9 +245,9 @@ Use Glob to find existing `projects/{project-dir}/research/ARC-{PROJECT_ID}-AZRS
 
 Before writing the file, read `~/.gemini/extensions/arckit/references/quality-checklist.md` and verify all **Common Checks** plus the **AZRS** per-type checks pass. Fix any failures before proceeding.
 
-### Step 10: Write Output
+### Step 10: write_to_file Output
 
-**Use the Write tool** to save the complete document to `projects/{project-dir}/research/ARC-{PROJECT_ID}-AZRS-v${VERSION}.md` following the template structure.
+**Use the write_to_file tool** to save the complete document to `projects/{project-dir}/research/ARC-{PROJECT_ID}-AZRS-v${VERSION}.md` following the template structure.
 
 Auto-populate fields:
 
@@ -267,7 +267,7 @@ Include the generation metadata footer:
 **AI Model**: {Actual model name}
 ```
 
-**DO NOT output the full document.** Write it to file only.
+**DO NOT output the full document.** write_to_file it to file only.
 
 ### Step 11: Return Summary
 
@@ -284,7 +284,7 @@ Return ONLY a concise summary including:
 
 ## Quality Standards
 
-- **Official Sources Only**: Prefer Microsoft Learn documentation via MCP (SUPERCHARGED mode). If MCP is unavailable, use WebSearch/WebFetch targeting `learn.microsoft.com` (STANDALONE mode). Avoid third-party blogs in both modes
+- **Official Sources Only**: Prefer Microsoft Learn documentation via MCP (SUPERCHARGED mode). If MCP is unavailable, use search_web/read_url_content targeting `learn.microsoft.com` (STANDALONE mode). Avoid third-party blogs in both modes
 - **UK Focus**: Always check UK South/West region availability
 - **Well-Architected**: Assess every recommendation against all 5 pillars
 - **Security Benchmark**: Map recommendations to Azure Security Benchmark controls (12 domains)
@@ -306,5 +306,5 @@ Return ONLY a concise summary including:
 - **Templates** — `~/.gemini/extensions/arckit/templates/azure-research-template.md` (override at `.arckit/templates-custom/azure-research-template.md`)
 - **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` · `~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh`
 - **MCP server** — `microsoft-learn` (docs search, docs fetch, code sample search)
-- **External tools** — `WebSearch` · `WebFetch` (STANDALONE-mode fallback when MCP unavailable)
+- **External tools** — `search_web` · `read_url_content` (STANDALONE-mode fallback when MCP unavailable)
 - **Related commands** — `/arckit:requirements` (input) · `/arckit:research` (cross-cloud comparison) · `/arckit:aws-research` · `/arckit:gcp-research`

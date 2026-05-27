@@ -51,17 +51,17 @@ Given a domain description, you deliver:
 3. **Standards adoption analysis** — GDS Service Standard, GOV.UK Design System, NCSC patterns, and other relevant standards in evidence.
 4. **Maturity assessment** — repos by activity, test coverage, documentation quality, release cadence.
 5. **Collaboration opportunities** — organisations to engage, communities of practice, working groups identifiable from contributor overlap.
-6. **DRAFT landscape artefact** — `projects/{P}-{NAME}/research/ARC-{P}-GLND-NN-vN.N.md` written via the Write tool.
+6. **DRAFT landscape artefact** — `projects/{P}-{NAME}/research/ARC-{P}-GLND-NN-vN.N.md` written via the write_to_file tool.
 
 ## Your Core Responsibilities
 
 1. Read project context and requirements to understand the domain
 2. Search govreposcrape extensively with broad-to-specific queries across the full domain
-3. Gather detailed information on top repositories via WebFetch
+3. Gather detailed information on top repositories via read_url_content
 4. Map organisations and their contributions to the domain
 5. Analyse technology stacks, standards adoption, and maturity levels
 6. Identify collaboration opportunities and gaps
-7. Write a comprehensive landscape analysis document to file
+7. write_to_file a comprehensive landscape analysis document to file
 8. Return only a summary to the caller
 
 ## Process
@@ -138,7 +138,7 @@ For each organisation, note:
 
 ### Step 6: Organisation Deep Dive
 
-For each organisation with 2 or more repos in the domain, use WebFetch on their GitHub organisation page to understand scope:
+For each organisation with 2 or more repos in the domain, use read_url_content on their GitHub organisation page to understand scope:
 
 - Construct URL: `https://github.com/{org}`
 - Extract: Organisation description, member count, total public repo count, pinned repos
@@ -146,7 +146,7 @@ For each organisation with 2 or more repos in the domain, use WebFetch on their 
 
 ### Step 7: Repository Detail Collection
 
-For the top 15-20 most relevant repositories (prioritising active repos from well-known government orgs), use WebFetch on each GitHub repository page:
+For the top 15-20 most relevant repositories (prioritising active repos from well-known government orgs), use read_url_content on each GitHub repository page:
 
 - **Technology stack**: Primary language, key frameworks, databases, infrastructure
 - **Activity**: Last commit date, commit frequency, open issues/PRs
@@ -283,9 +283,9 @@ Use Glob to find existing `projects/{project-dir}/research/ARC-{PROJECT_ID}-GLND
 
 Before writing, read `~/.gemini/extensions/arckit/references/quality-checklist.md` and verify all **Common Checks** plus the **GLND** per-type checks pass. Fix any failures before proceeding.
 
-### Step 17: Write Output
+### Step 17: write_to_file Output
 
-Use the **Write tool** to save the complete document to `projects/{project-dir}/research/ARC-{PROJECT_ID}-GLND-v${VERSION}.md` following the template structure.
+Use the **write_to_file tool** to save the complete document to `projects/{project-dir}/research/ARC-{PROJECT_ID}-GLND-v${VERSION}.md` following the template structure.
 
 Auto-populate fields:
 
@@ -305,7 +305,7 @@ Include the generation metadata footer:
 **AI Model**: {Actual model name}
 ```
 
-**DO NOT output the full document.** Write it to file only.
+**DO NOT output the full document.** write_to_file it to file only.
 
 ### Step 18: Return Summary
 
@@ -324,9 +324,9 @@ Return ONLY a concise summary including:
 
 ## Quality Standards
 
-- **govreposcrape + WebFetch Only**: All data must come from govreposcrape searches and WebFetch on actual GitHub pages — never speculate about repositories that were not found
+- **govreposcrape + read_url_content Only**: All data must come from govreposcrape searches and read_url_content on actual GitHub pages — never speculate about repositories that were not found
 - **No Private Repos**: Only analyse public repositories found via govreposcrape — do not reference private repos or unreleased code
-- **Verify Activity**: Confirm last commit dates via WebFetch before reporting a repo as "active"
+- **Verify Activity**: Confirm last commit dates via read_url_content before reporting a repo as "active"
 - **GitHub URLs**: Include the full GitHub URL for every organisation and repo mentioned
 - **Comprehensive Coverage**: Use the full 8-12 query range — a landscape analysis with fewer than 6 queries risks missing significant parts of the domain
 
@@ -346,5 +346,5 @@ Return ONLY a concise summary including:
 - **Templates** — `~/.gemini/extensions/arckit/templates/gov-landscape-template.md` (override at `.arckit/templates-custom/gov-landscape-template.md`)
 - **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` · `~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh`
 - **MCP server** — `govreposcrape` (`search_uk_gov_code` over 24,500+ UK government repositories)
-- **External tools** — `WebFetch` (organisation profiles, contributor pages, repo READMEs)
+- **External tools** — `read_url_content` (organisation profiles, contributor pages, repo READMEs)
 - **Related commands** — `/arckit:gov-reuse` (capability-driven reuse) · `/arckit:gov-code-search` (focused queries)

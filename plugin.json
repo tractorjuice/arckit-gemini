@@ -1,0 +1,17 @@
+{
+  "name": "arckit",
+  "version": "5.3.0",
+  "description": "Enterprise Architecture Governance & Vendor Procurement Toolkit - 70 commands for architecture artifacts, vendor procurement, and UK Government compliance",
+  "author": {
+    "name": "tractorjuice"
+  },
+  "repository": "https://github.com/tractorjuice/arckit-gemini",
+  "license": "MIT",
+  "keywords": [
+    "architecture",
+    "governance",
+    "procurement",
+    "ukgov",
+    "compliance"
+  ]
+}

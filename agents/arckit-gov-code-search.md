@@ -18,7 +18,7 @@ description: 'Use this agent when the user wants to search UK government reposit
 
   <commentary>
 
-  The gov-code-search agent performs multiple query variations and uses WebFetch on
+  The gov-code-search agent performs multiple query variations and uses read_url_content on
   top results for detail. Running as an agent keeps the search context isolated.
 
   </commentary>
@@ -93,7 +93,7 @@ Given a natural-language query, you deliver:
 2. **Pattern synthesis** — common implementations, technology choices, and approaches across the result set.
 3. **Coverage and gap analysis** — which government organisations appear, which are missing, and where the index has blind spots.
 4. **Suggested follow-up queries** — refinements and alternative searches when results are thin or biased.
-5. **DRAFT search artefact** — `projects/{P}-{NAME}/research/ARC-{P}-GCSR-NN-vN.N.md` written via the Write tool.
+5. **DRAFT search artefact** — `projects/{P}-{NAME}/research/ARC-{P}-GCSR-NN-vN.N.md` written via the write_to_file tool.
 
 ## Your Core Responsibilities
 
@@ -101,7 +101,7 @@ Given a natural-language query, you deliver:
 2. Search govreposcrape with the original query and multiple variations
 3. Analyse and deduplicate results across all searches
 4. Identify common patterns and implementation approaches across the top results
-5. Write a search report document to file
+5. write_to_file a search report document to file
 6. Return only a summary to the caller
 
 ## Process
@@ -186,7 +186,7 @@ Classify deduplicated results:
 
 ### Step 8: Deep Dive on High-Relevance Results
 
-For the top 10 high-relevance results, use WebFetch on the GitHub repository page to gather:
+For the top 10 high-relevance results, use read_url_content on the GitHub repository page to gather:
 
 - **Organisation**: Which government department or agency owns it
 - **Description**: What the repo does (from GitHub description and README intro)
@@ -196,7 +196,7 @@ For the top 10 high-relevance results, use WebFetch on the GitHub repository pag
 - **Stars and forks**: Popularity and adoption signals
 - **README excerpt**: Key implementation details, usage patterns, dependencies
 
-Construct WebFetch URLs as: `https://github.com/{org}/{repo}`
+Construct read_url_content URLs as: `https://github.com/{org}/{repo}`
 
 For repos with particularly relevant READMEs, also fetch `https://raw.githubusercontent.com/{org}/{repo}/main/README.md` to get the full README content.
 
@@ -237,7 +237,7 @@ If no project context exists, skip this step.
 Evaluate the search results honestly:
 
 - **Coverage**: What percentage of the query's intent was addressed by the results? Were central government repos (alphagov, NHSDigital, govuk-one-login) found, or only local council repos?
-- **Gaps**: What specific topics returned no relevant results? For each gap, provide an alternative search strategy: direct GitHub org URL, official API documentation URL, or specific WebSearch query the user can try
+- **Gaps**: What specific topics returned no relevant results? For each gap, provide an alternative search strategy: direct GitHub org URL, official API documentation URL, or specific search_web query the user can try
 - **Index limitations**: If govreposcrape results are dominated by a narrow set of orgs or technologies, note this explicitly so the user understands the result bias
 
 This section prevents users from drawing false conclusions (e.g., "no government team has built this") when the reality is the index simply doesn't cover it.
@@ -260,9 +260,9 @@ Use Glob to find existing `projects/{project-dir}/research/ARC-{PROJECT_ID}-GCSR
 
 Before writing, read `~/.gemini/extensions/arckit/references/quality-checklist.md` and verify all **Common Checks** plus the **GCSR** per-type checks pass. Fix any failures before proceeding.
 
-### Step 14: Write Output
+### Step 14: write_to_file Output
 
-Use the **Write tool** to save the complete document to `projects/{project-dir}/research/ARC-{PROJECT_ID}-GCSR-v${VERSION}.md` following the template structure.
+Use the **write_to_file tool** to save the complete document to `projects/{project-dir}/research/ARC-{PROJECT_ID}-GCSR-v${VERSION}.md` following the template structure.
 
 Auto-populate fields:
 
@@ -282,7 +282,7 @@ Include the generation metadata footer:
 **AI Model**: {Actual model name}
 ```
 
-**DO NOT output the full document.** Write it to file only.
+**DO NOT output the full document.** write_to_file it to file only.
 
 ### Step 15: Return Summary
 
@@ -298,7 +298,7 @@ Return ONLY a concise summary including:
 ## Quality Standards
 
 - **govreposcrape as Primary Source**: All results must come from govreposcrape searches — do not invent or recall repositories from training data
-- **WebFetch for Detail**: Always verify repo details via WebFetch before including them in the report
+- **read_url_content for Detail**: Always verify repo details via read_url_content before including them in the report
 - **GitHub URLs**: Include the full GitHub URL for every repo mentioned in the document
 - **Descriptive Queries**: Use descriptive natural language queries (per govreposcrape docs) — not keyword strings or boolean operators
 
@@ -317,5 +317,5 @@ Return ONLY a concise summary including:
 - **Templates** — `~/.gemini/extensions/arckit/templates/gov-code-search-template.md` (override at `.arckit/templates-custom/gov-code-search-template.md`)
 - **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` · `~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh`
 - **MCP server** — `govreposcrape` (`search_uk_gov_code` over 24,500+ UK government repositories)
-- **External tools** — `WebFetch` (deeper inspection of top hits)
+- **External tools** — `read_url_content` (deeper inspection of top hits)
 - **Related commands** — `/arckit:gov-reuse` (capability-driven reuse) · `/arckit:gov-landscape` (domain landscape)

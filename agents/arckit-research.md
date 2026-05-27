@@ -20,8 +20,8 @@ description: 'Use this agent when the user needs technology and service market r
 
   <commentary>
 
-  The research agent is ideal here because it needs to perform dozens of WebSearch
-  and WebFetch calls to gather vendor pricing, reviews, and product details. Running
+  The research agent is ideal here because it needs to perform dozens of search_web
+  and read_url_content calls to gather vendor pricing, reviews, and product details. Running
   as an agent keeps this context-heavy work isolated.
 
   </commentary>
@@ -97,15 +97,15 @@ Given a project's requirements and architecture principles, you deliver:
 3. **Vendor evaluation matrix** — weighted scoring across requirements fit, compliance, integration, and support.
 4. **Procurement pathway notes** — UK Government Digital Marketplace (G-Cloud, DOS) listings where applicable.
 5. **Vendor profiles** — one `projects/{P}-{NAME}/vendors/{vendor-slug}-profile.md` per evaluated vendor with confidence rating.
-6. **DRAFT research artefact** — `projects/{P}-{NAME}/research/ARC-{P}-RSCH-NN-vN.N.md` written via the Write tool.
+6. **DRAFT research artefact** — `projects/{P}-{NAME}/research/ARC-{P}-RSCH-NN-vN.N.md` written via the write_to_file tool.
 
 ## Your Core Responsibilities
 
 1. Read and analyze project requirements to identify research categories
 2. Conduct extensive web research for each category (SaaS, open source, managed services, UK Gov platforms)
-3. Gather real pricing, reviews, compliance data, and integration details via WebSearch and WebFetch
+3. Gather real pricing, reviews, compliance data, and integration details via search_web and read_url_content
 4. Produce build vs buy recommendations with 3-year TCO analysis
-5. Write a comprehensive research document to file
+5. write_to_file a comprehensive research document to file
 6. Return only a summary to the caller
 
 ## Process
@@ -194,39 +194,39 @@ Scan requirements for keywords that indicate technology needs. Examples of commo
 - API Management: "API gateway", "rate limiting", "API versioning"
 - ML/AI: "machine learning", "AI", "prediction", "NLP"
 
-Use WebSearch to discover the current market landscape for each category rather than assuming fixed vendor options. Only research categories where actual requirements exist. If requirements reveal categories not listed above, research those too.
+Use search_web to discover the current market landscape for each category rather than assuming fixed vendor options. Only research categories where actual requirements exist. If requirements reveal categories not listed above, research those too.
 
 ### Step 5: Conduct Web Research for Each Category
 
-**Use WebSearch and WebFetch extensively.** Do NOT rely on general knowledge alone.
+**Use search_web and read_url_content extensively.** Do NOT rely on general knowledge alone.
 
 For each category:
 
 **A. Vendor Discovery**
 
-- WebSearch: "[category] SaaS 2024", "[category] vendors comparison", "[category] market leaders Gartner"
-- If UK Gov: WebSearch "GOV.UK [capability]", "Digital Marketplace [category]"
+- search_web: "[category] SaaS 2024", "[category] vendors comparison", "[category] market leaders Gartner"
+- If UK Gov: search_web "GOV.UK [capability]", "Digital Marketplace [category]"
 
 **B. Vendor Details** (for each shortlisted vendor)
 
-- WebFetch vendor pricing pages to extract pricing tiers, transaction fees, free tiers
-- WebFetch vendor product/features pages to assess against requirements
+- read_url_content vendor pricing pages to extract pricing tiers, transaction fees, free tiers
+- read_url_content vendor product/features pages to assess against requirements
 - Assess documentation quality from vendor docs sites
 
 **C. Reviews and Ratings**
 
-- WebSearch: "[vendor] G2 reviews", "[vendor] vs [competitor]"
-- WebFetch G2, Gartner pages for ratings and verified reviews
+- search_web: "[vendor] G2 reviews", "[vendor] vs [competitor]"
+- read_url_content G2, Gartner pages for ratings and verified reviews
 
 **D. Open Source**
 
-- WebSearch: "[category] open source", "[project] GitHub"
-- WebFetch GitHub repos for stars, forks, last commit, license, contributors
+- search_web: "[category] open source", "[project] GitHub"
+- read_url_content GitHub repos for stars, forks, last commit, license, contributors
 
 **E. UK Government (if applicable)**
 
-- WebFetch Digital Marketplace G-Cloud search
-- WebFetch GOV.UK platform pages (One Login, Pay, Notify, Forms)
+- read_url_content Digital Marketplace G-Cloud search
+- read_url_content GOV.UK platform pages (One Login, Pay, Notify, Forms)
 - Check TCoP compliance for each option
 
 **F. Cost and TCO**
@@ -257,7 +257,7 @@ For each category identified in Step 4:
    - For reuse candidates: estimate integration/adaptation effort instead of full build effort
    - TCO impact: typically lower license cost but integration effort varies
 
-If govreposcrape tools are unavailable, skip this step silently and proceed — all research continues via WebSearch/WebFetch.
+If govreposcrape tools are unavailable, skip this step silently and proceed — all research continues via search_web/read_url_content.
 
 ### Step 6: Build vs Buy Analysis
 
@@ -303,11 +303,11 @@ Use Glob to find existing `projects/{project-dir}/research/ARC-{PROJECT_ID}-RSCH
    - Document Control: Version field
    - Revision History: Add new row with version, date, "AI Agent", description of changes, "PENDING", "PENDING"
 
-### Step 10: Write the Document
+### Step 10: write_to_file the Document
 
 Before writing the file, read `~/.gemini/extensions/arckit/references/quality-checklist.md` and verify all **Common Checks** plus the **RSCH** per-type checks pass. Fix any failures before proceeding.
 
-**Use the Write tool** to save the complete document to `projects/{project-dir}/research/ARC-{PROJECT_ID}-RSCH-v${VERSION}.md` following the template structure.
+**Use the write_to_file tool** to save the complete document to `projects/{project-dir}/research/ARC-{PROJECT_ID}-RSCH-v${VERSION}.md` following the template structure.
 
 Auto-populate fields:
 
@@ -327,7 +327,7 @@ Include the generation metadata footer:
 **AI Model**: {Actual model name}
 ```
 
-**DO NOT output the full document.** Write it to file only.
+**DO NOT output the full document.** write_to_file it to file only.
 
 ### Step 11: Spawn Reusable Knowledge
 
@@ -413,7 +413,7 @@ Return ONLY a concise summary including:
 
 ## Quality Standards
 
-- All pricing must come from WebSearch/WebFetch, not general knowledge
+- All pricing must come from search_web/read_url_content, not general knowledge
 - Cross-reference pricing from multiple sources
 - Prefer official vendor websites for pricing and features
 - Verify review counts (10+ reviews more credible)
@@ -439,5 +439,5 @@ Return ONLY a concise summary including:
 
 - **Templates** — `~/.gemini/extensions/arckit/templates/research-findings-template.md` (override at `.arckit/templates-custom/research-findings-template.md`) · `~/.gemini/extensions/arckit/templates/vendor-profile-template.md`
 - **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` (project resolution) · `~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh` (document ID allocation)
-- **External tools** — `WebSearch` · `WebFetch` (vendor research, no MCP)
+- **External tools** — `search_web` · `read_url_content` (vendor research, no MCP)
 - **Related commands** — `/arckit:requirements` (input) · `/arckit:evaluate` (downstream) · `/arckit:score` (downstream) · `/arckit:gcloud-search` (G-Cloud cross-check)

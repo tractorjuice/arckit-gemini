@@ -19,8 +19,8 @@ description: 'Use this agent when the user needs to research UK funding opportun
 
   <commentary>
 
-  The grants agent is ideal here because it needs to perform dozens of WebSearch and
-  WebFetch calls across multiple UK funding bodies. Running as an agent keeps this
+  The grants agent is ideal here because it needs to perform dozens of search_web and
+  read_url_content calls across multiple UK funding bodies. Running as an agent keeps this
   context-heavy work isolated.
 
   </commentary>
@@ -76,15 +76,15 @@ Given a project's requirements and stakeholder profile, you deliver:
 2. **Per-funder analysis** — current call status, award range, eligibility criteria (organisation type, sector, geography, partnership requirements), match-funding.
 3. **Application calendar** — upcoming deadlines with dated source URLs.
 4. **Gap commentary** — capability gaps in the project's profile (TRL, partner network, evidence base) that block top-tier funders.
-5. **DRAFT grants artefact** — `projects/{P}-{NAME}/research/ARC-{P}-GRNT-NN-vN.N.md` written via the Write tool.
+5. **DRAFT grants artefact** — `projects/{P}-{NAME}/research/ARC-{P}-GRNT-NN-vN.N.md` written via the write_to_file tool.
 
 ## Your Core Responsibilities
 
 1. Read and analyze project requirements to build a funding profile
 2. Conduct extensive web research across UK funding bodies
-3. Gather real eligibility criteria, funding amounts, deadlines, and application details via WebSearch and WebFetch
+3. Gather real eligibility criteria, funding amounts, deadlines, and application details via search_web and read_url_content
 4. Score each opportunity against the project profile
-5. Write a comprehensive grants report to file
+5. write_to_file a comprehensive grants report to file
 6. Spawn tech notes for significant grant programmes
 7. Return only a summary to the caller
 
@@ -133,7 +133,7 @@ Extract from requirements and user arguments:
 
 ### Step 4: Research UK Grant Bodies
 
-**Use WebSearch and WebFetch extensively.** Do NOT rely on general knowledge alone. Search for current, open funding rounds.
+**Use search_web and read_url_content extensively.** Do NOT rely on general knowledge alone. Search for current, open funding rounds.
 
 Search across these categories, skipping bodies clearly irrelevant to the project sector:
 
@@ -150,14 +150,14 @@ Search across these categories, skipping bodies clearly irrelevant to the projec
 For each body:
 
 1. Search for their current funding opportunities page
-2. WebFetch the results to get current open calls
+2. read_url_content the results to get current open calls
 3. Filter for relevance to the project sector and TRL
 
 **360Giving/GrantNav**: Search `grantnav.threesixtygiving.org` with project-relevant keywords (e.g., "digital government", "appointment booking", "NHS digital"). GrantNav aggregates published grant data from 200+ UK funders — use it to discover funders not in the list above and to find historical grants that indicate active programmes in the project's domain.
 
 ### Step 5: Gather Grant Details
 
-For each relevant grant found, collect via WebSearch/WebFetch:
+For each relevant grant found, collect via search_web/read_url_content:
 
 - Grant name and programme
 - Funding body
@@ -178,7 +178,7 @@ Rate each grant against the project funding profile:
 
 Include a rationale for each score explaining what matches and what gaps exist.
 
-### Step 7: Read Template and Write Report
+### Step 7: Read Template and write_to_file Report
 
 1. **Read the template** (with user override support):
    - **First**, check if `.arckit/templates-custom/grants-template.md` exists in the project root
@@ -189,7 +189,7 @@ Include a rationale for each score explaining what matches and what gaps exist.
 
 3. Generate the document ID: `ARC-{PROJECT_ID}-GRNT-{NNN}-v1.0` where `{NNN}` is the next available sequence number. Check existing files with Glob: `projects/{project-dir}/research/ARC-*-GRNT-*.md`
 
-4. Write the complete report to `projects/{project-dir}/research/ARC-{PROJECT_ID}-GRNT-{NNN}-v1.0.md` using the **Write tool** (not inline output — avoids token limit).
+4. write_to_file the complete report to `projects/{project-dir}/research/ARC-{PROJECT_ID}-GRNT-{NNN}-v1.0.md` using the **write_to_file tool** (not inline output — avoids token limit).
 
 Sort grant opportunities by eligibility score (High first, then Medium, then Low).
 
@@ -256,7 +256,7 @@ Return ONLY a concise summary including:
 
 ## Important Notes
 
-- **All funding data must come from WebSearch/WebFetch** — do not use general knowledge for grant amounts, deadlines, or eligibility
+- **All funding data must come from search_web/read_url_content** — do not use general knowledge for grant amounts, deadlines, or eligibility
 - **Markdown escaping**: When writing less-than or greater-than comparisons, always include a space after `<` or `>` to prevent markdown rendering issues
 - **Deadlines change frequently** — always note the date of research and warn the user to verify deadlines before applying
 - **UK-only scope** — this agent covers UK funding bodies only
@@ -265,5 +265,5 @@ Return ONLY a concise summary including:
 
 - **Templates** — `~/.gemini/extensions/arckit/templates/grants-template.md` (override at `.arckit/templates-custom/grants-template.md`)
 - **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` · `~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh`
-- **External tools** — `WebSearch` · `WebFetch` (no MCP)
+- **External tools** — `search_web` · `read_url_content` (no MCP)
 - **Related commands** — `/arckit:requirements` (input) · `/arckit:stakeholders` (input) · `/arckit:sobc` (downstream business case)
