@@ -1,8 +1,8 @@
 # ArcKit - Gemini CLI Extension
 
-**Enterprise Architecture Governance & Vendor Procurement Toolkit for Gemini CLI**
+**The Enterprise Architecture Governance Harness for Gemini CLI**
 
-ArcKit provides 70 slash commands for generating architecture artifacts, vendor procurement documents, and UK Government compliance assessments — all from within Gemini CLI.
+ArcKit provides 70 slash commands across strategy, architecture, delivery, and assurance — including UK Government compliance — all from within Gemini CLI.
 
 ## Installation
 
