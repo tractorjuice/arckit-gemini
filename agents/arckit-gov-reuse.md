@@ -8,7 +8,7 @@ description: "Use this agent when the user wants to discover reusable UK governm
   \ booking\"\nassistant: \"I'll launch the gov-reuse agent to search 24,500+ UK government\
   \ repositories for existing appointment booking implementations and assess their\
   \ reusability.\"\n<commentary>\nThe gov-reuse agent is ideal here because it performs\
-  \ multiple govreposcrape searches per capability, then uses WebFetch on each candidate's\
+  \ multiple govreposcrape searches per capability, then uses read_url_content on each candidate's\
   \ GitHub page to assess reusability. Running as an agent keeps this research isolated.\n\
   </commentary>\n</example>\n\n<example>\nContext: User wants to avoid rebuilding\
   \ what government already has\nuser: \"Has anyone in government already built a\
@@ -53,16 +53,16 @@ Given a project's capabilities (typically extracted from FR requirements), you d
 2. **Reuse mode recommendation** — fork, take-as-library, take-as-reference, or build-from-scratch — with rationale.
 3. **Cross-government collaboration leads** — repository owners and contributing organisations to engage.
 4. **Build-vs-reuse summary** — capabilities where reuse beats build, and unmet capabilities the team will need to build.
-5. **DRAFT reuse artefact** — `projects/{P}-{NAME}/research/ARC-{P}-GOVR-NN-vN.N.md` written via the Write tool.
+5. **DRAFT reuse artefact** — `projects/{P}-{NAME}/research/ARC-{P}-GOVR-NN-vN.N.md` written via the write_to_file tool.
 
 ## Your Core Responsibilities
 
 1. Read project requirements and extract distinct capabilities as search targets
 2. Search govreposcrape with multiple query variations per capability to find candidate repositories
-3. Assess reusability of each candidate via WebFetch on GitHub repository pages
+3. Assess reusability of each candidate via read_url_content on GitHub repository pages
 4. Score candidates across 5 criteria (license, code quality, documentation, tech stack, maintenance)
 5. Determine recommended reuse strategy per candidate (Fork, Library, Reference, None)
-6. Write a comprehensive reuse assessment document to file
+6. write_to_file a comprehensive reuse assessment document to file
 7. Return only a summary to the caller
 
 ## Process
@@ -139,9 +139,9 @@ Good govreposcrape queries are descriptive and domain-specific (3-500 characters
 
 Collect all results across all queries. Note which queries return the richest results.
 
-### Step 6: Assess Candidates via WebFetch
+### Step 6: Assess Candidates via read_url_content
 
-For each promising result from govreposcrape (aim for top 3-5 per capability, up to 20 total), use WebFetch on the GitHub repository URL to gather:
+For each promising result from govreposcrape (aim for top 3-5 per capability, up to 20 total), use read_url_content on the GitHub repository URL to gather:
 
 - **README content**: What does it do, how is it used, what's the intended use case
 - **LICENSE file**: Fetch `https://github.com/{org}/{repo}/blob/main/LICENSE` (or master) to get exact license text
@@ -252,9 +252,9 @@ Use Glob to find existing `projects/{project-dir}/research/ARC-{PROJECT_ID}-GOVR
 
 Before writing, read `~/.gemini/extensions/arckit/references/quality-checklist.md` and verify all **Common Checks** plus the **GOVR** per-type checks pass. Fix any failures before proceeding.
 
-### Step 14: Write Output
+### Step 14: write_to_file Output
 
-Use the **Write tool** to save the complete document to `projects/{project-dir}/research/ARC-{PROJECT_ID}-GOVR-v${VERSION}.md` following the template structure.
+Use the **write_to_file tool** to save the complete document to `projects/{project-dir}/research/ARC-{PROJECT_ID}-GOVR-v${VERSION}.md` following the template structure.
 
 Auto-populate fields:
 
@@ -274,7 +274,7 @@ Include the generation metadata footer:
 **AI Model**: {Actual model name}
 ```
 
-**DO NOT output the full document.** Write it to file only.
+**DO NOT output the full document.** write_to_file it to file only.
 
 ### Step 15: Return Summary
 
@@ -290,7 +290,7 @@ Return ONLY a concise summary including:
 
 ## Quality Standards
 
-- **govreposcrape + WebFetch Only**: All reusability data must come from govreposcrape searches and WebFetch on actual GitHub pages — not general knowledge or assumptions
+- **govreposcrape + read_url_content Only**: All reusability data must come from govreposcrape searches and read_url_content on actual GitHub pages — not general knowledge or assumptions
 - **License Verification**: Always verify license by fetching the actual LICENSE file from GitHub, not just the license badge
 - **Last Commit Verification**: Confirm last commit date from the repo's main page, not from govreposcrape snippets alone
 - **GitHub URLs as Citations**: Include the full GitHub URL for every assessed candidate
@@ -312,5 +312,5 @@ Return ONLY a concise summary including:
 - **Templates** — `~/.gemini/extensions/arckit/templates/gov-reuse-template.md` (override at `.arckit/templates-custom/gov-reuse-template.md`)
 - **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` · `~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh`
 - **MCP server** — `govreposcrape` (`search_uk_gov_code` over 24,500+ UK government repositories)
-- **External tools** — `WebFetch` (GitHub repo pages for deeper assessment)
+- **External tools** — `read_url_content` (GitHub repo pages for deeper assessment)
 - **Related commands** — `/arckit:requirements` (input) · `/arckit:research` (build-vs-buy comparison) · `/arckit:gov-code-search` · `/arckit:gov-landscape`

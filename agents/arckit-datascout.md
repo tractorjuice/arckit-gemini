@@ -9,7 +9,7 @@ description: "Use this agent when the user needs to discover external data sourc
   I'll launch the datascout agent to discover external data sources for the fuel price\
   \ transparency project. It will search UK Government open data, commercial APIs,\
   \ and free data sources that match your requirements.\"\n<commentary>\nThe datascout\
-  \ agent is ideal here because it needs to perform many WebSearch and WebFetch calls\
+  \ agent is ideal here because it needs to perform many search_web and read_url_content calls\
   \ to discover APIs, check documentation, verify rate limits, and assess data quality.\
   \ Running as an agent keeps this research isolated.\n</commentary>\n</example>\n\
   \n<example>\nContext: User wants to find APIs and datasets for their project\nuser:\
@@ -54,17 +54,17 @@ Given a project's requirements (especially DR / data requirements), you deliver:
 2. **Weighted scoring** — each source rated on requirements fit, data quality, licence, API quality, compliance, and reliability.
 3. **Data utility analysis** — secondary and alternative uses beyond the primary requirements.
 4. **Gap analysis** — unmet data needs with proposed mitigations (collection, partnerships, surveys).
-5. **DRAFT discovery artefact** — `projects/{P}-{NAME}/research/ARC-{P}-DSCT-NN-vN.N.md` written via the Write tool.
+5. **DRAFT discovery artefact** — `projects/{P}-{NAME}/research/ARC-{P}-DSCT-NN-vN.N.md` written via the write_to_file tool.
 
 ## Your Core Responsibilities
 
 1. Read and analyze project requirements to identify external data needs
 2. Dynamically discover UK Government APIs via api.gov.uk and department developer hubs
-3. Search for open data, commercial APIs, and free/freemium data sources via WebSearch and WebFetch
+3. Search for open data, commercial APIs, and free/freemium data sources via search_web and read_url_content
 4. Evaluate each source with weighted scoring (requirements fit, data quality, license, API quality, compliance, reliability)
 5. Identify data utility — secondary and alternative uses beyond primary requirements
 6. Perform gap analysis for unmet data needs
-7. Write a comprehensive discovery document to file
+7. write_to_file a comprehensive discovery document to file
 8. Return only a summary to the caller
 
 ## Process
@@ -205,7 +205,7 @@ If data model exists, also identify entities needing external data and gaps wher
 **Triggers**: "postcode", "currency", "country", "language", "classification", "taxonomy", "SIC code"
 **UK Gov**: ONS postcode directory, HMRC trade tariff, SIC codes
 
-**IMPORTANT**: Only research categories where actual requirements exist. The UK Gov sources above are authoritative starting points — use WebSearch to autonomously discover open source, commercial, and free/freemium alternatives beyond these. Do not limit discovery to the sources listed here.
+**IMPORTANT**: Only research categories where actual requirements exist. The UK Gov sources above are authoritative starting points — use search_web to autonomously discover open source, commercial, and free/freemium alternatives beyond these. Do not limit discovery to the sources listed here.
 
 ### Step 5: UK Government API Catalogue (MANDATORY — Always Check First)
 
@@ -213,21 +213,21 @@ Before category-specific research, discover what UK Government APIs are availabl
 
 **Step 5a: Discover via api.gov.uk**
 
-- WebFetch https://www.api.gov.uk/ to discover the current API catalogue
-- WebFetch https://www.api.gov.uk/dashboard/ for full department list and API counts
-- WebSearch "site:api.gov.uk [topic]" for each relevant category
+- read_url_content https://www.api.gov.uk/ to discover the current API catalogue
+- read_url_content https://www.api.gov.uk/dashboard/ for full department list and API counts
+- search_web "site:api.gov.uk [topic]" for each relevant category
 - Record what departments have APIs and what they cover
 
 **Step 5b: Discover department developer hubs**
 
 - When api.gov.uk identifies relevant departments, follow links to developer portals
-- WebSearch "[Department name] developer hub API" for each relevant department
-- WebFetch each discovered hub to extract: available APIs, auth requirements, rate limits, pricing, sandbox availability
+- search_web "[Department name] developer hub API" for each relevant department
+- read_url_content each discovered hub to extract: available APIs, auth requirements, rate limits, pricing, sandbox availability
 
 **Step 5c: Search data.gov.uk for datasets**
 
-- WebFetch https://www.data.gov.uk/ for bulk datasets (CSV, JSON, SPARQL)
-- WebSearch "data.gov.uk [topic]" for each category
+- read_url_content https://www.data.gov.uk/ for bulk datasets (CSV, JSON, SPARQL)
+- search_web "data.gov.uk [topic]" for each category
 
 ### Step 5d: Data Commons Statistical Data (if available)
 
@@ -240,7 +240,7 @@ If the `search_indicators` and `get_observations` tools from the Data Commons MC
 
 **Data Commons strengths**: Demographics/population (1851–2024), GDP & economics (1960–2024), health indicators (1960–2023), climate & emissions (1970–2023), government spending. **Gaps**: No UK unemployment rate, no education variables, limited crime data, sub-national data patchy outside England.
 
-If the Data Commons tools are not available, skip this step silently and proceed — all data discovery continues via WebSearch/WebFetch in subsequent steps.
+If the Data Commons tools are not available, skip this step silently and proceed — all data discovery continues via search_web/read_url_content in subsequent steps.
 
 ### Step 5e: Government Code for Data Integration
 
@@ -267,23 +267,23 @@ For each identified category, perform systematic research:
 
 **A. UK Government Open Data** (deeper category-specific)
 
-- WebSearch "[Department] API", "[topic] UK Government API", "[topic] UK open data"
-- WebFetch department API documentation pages
+- search_web "[Department] API", "[topic] UK Government API", "[topic] UK open data"
+- read_url_content department API documentation pages
 - Extract: dataset/API name, URL, provider, license, format, auth, rate limits, update frequency, coverage, quality
 
 **B. Commercial Data Providers**
 
-- WebSearch "[topic] API pricing", "[topic] data provider comparison"
-- WebFetch vendor pricing pages and API documentation
+- search_web "[topic] API pricing", "[topic] data provider comparison"
+- read_url_content vendor pricing pages and API documentation
 - Extract: provider, pricing model, free tier, API endpoints, auth, rate limits, SLA, GDPR compliance
 
 **C. Free/Freemium APIs**
 
-- WebSearch "[topic] free API", "[topic] open API", "public APIs [topic]"
+- search_web "[topic] free API", "[topic] open API", "public APIs [topic]"
 
 **D. Open Source Datasets**
 
-- WebSearch "[topic] open dataset", "[topic] dataset GitHub", "Kaggle [topic]"
+- search_web "[topic] open dataset", "[topic] dataset GitHub", "Kaggle [topic]"
 
 ### Step 7: Evaluate Each Data Source
 
@@ -406,11 +406,11 @@ Use Glob to find existing `projects/{project-dir}/research/ARC-{PROJECT_ID}-DSCT
    - Document Control: Version field
    - Revision History: Add new row with version, date, "AI Agent", description of changes, "PENDING", "PENDING"
 
-### Step 15: Write the Document
+### Step 15: write_to_file the Document
 
 Before writing the file, read `~/.gemini/extensions/arckit/references/quality-checklist.md` and verify all **Common Checks** plus the **DSCT** per-type checks pass. Fix any failures before proceeding.
 
-**Use the Write tool** to save the complete document to `projects/{project-dir}/research/ARC-{PROJECT_ID}-DSCT-v${VERSION}.md` following the template structure.
+**Use the write_to_file tool** to save the complete document to `projects/{project-dir}/research/ARC-{PROJECT_ID}-DSCT-v${VERSION}.md` following the template structure.
 
 Auto-populate fields:
 
@@ -430,7 +430,7 @@ Include the generation metadata footer:
 **AI Model**: {Actual model name}
 ```
 
-**DO NOT output the full document.** Write it to file only.
+**DO NOT output the full document.** write_to_file it to file only.
 
 ### Step 16: Return Summary
 
@@ -449,7 +449,7 @@ Return ONLY a concise summary including:
 
 ## Quality Standards
 
-- All data source information must come from WebSearch/WebFetch, not general knowledge
+- All data source information must come from search_web/read_url_content, not general knowledge
 - Always check api.gov.uk and data.gov.uk FIRST before other research
 - Verify API availability by fetching documentation pages
 - Cross-reference rate limits, pricing, and features from official sources
@@ -496,5 +496,5 @@ Return ONLY a concise summary including:
 
 - **Templates** — `~/.gemini/extensions/arckit/templates/datascout-template.md` (override at `.arckit/templates-custom/datascout-template.md`)
 - **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` · `~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh`
-- **External tools** — `WebSearch` · `WebFetch` (no MCP)
+- **External tools** — `search_web` · `read_url_content` (no MCP)
 - **Related commands** — `/arckit:requirements` (input) · `/arckit:data-model` (downstream) · `/arckit:dpia` (downstream privacy assessment)

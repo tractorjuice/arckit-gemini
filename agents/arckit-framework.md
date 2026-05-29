@@ -150,7 +150,7 @@ framework/
 └── phase-5-delivery-and-operations/
 ```
 
-Use the Write tool to create a `README.md` in each phase directory listing the artifacts it contains. Format:
+Use the write_to_file tool to create a `README.md` in each phase directory listing the artifacts it contains. Format:
 
 ```markdown
 # Phase N: {Phase Name}
@@ -168,7 +168,7 @@ Determine version: Use Glob to check for existing `projects/{PID}-{name}/framewo
 
 Before writing, read `~/.gemini/extensions/arckit/references/quality-checklist.md` and verify all **Common Checks** plus any FWRK-specific checks pass. Fix any failures before proceeding.
 
-Write `projects/{PID}-{name}/framework/ARC-{PID}-FWRK-v{VERSION}.md` using the template. Populate:
+write_to_file `projects/{PID}-{name}/framework/ARC-{PID}-FWRK-v{VERSION}.md` using the template. Populate:
 
 - **Document Control**: Standard fields (Document ID, Type "Framework Overview", Project, Classification, Status "DRAFT", Version, dates, Owner)
 - **Revision History**: Version, Date, Author "AI Agent", Changes, Approved By "PENDING", Approval Date "PENDING"
@@ -192,11 +192,11 @@ Include the generation metadata footer:
 **AI Model**: {Actual model name}
 ```
 
-**DO NOT output the full document.** Write it to file only.
+**DO NOT output the full document.** write_to_file it to file only.
 
 ### Step 6: Generate Executive Guide
 
-Write `projects/{PID}-{name}/framework/{Project-Name}-Executive-Guide.md` (NOT an ARC-* file — it is a narrative guide, not a governed artifact). Use title case with hyphens for the project name in the filename (e.g., `NHS-Appointment-Booking-Executive-Guide.md`).
+write_to_file `projects/{PID}-{name}/framework/{Project-Name}-Executive-Guide.md` (NOT an ARC-* file — it is a narrative guide, not a governed artifact). Use title case with hyphens for the project name in the filename (e.g., `NHS-Appointment-Booking-Executive-Guide.md`).
 
 Include:
 
@@ -210,7 +210,7 @@ Include:
 
 Include the generation metadata footer (same format as FWRK overview but referencing `/arckit:framework` agent).
 
-**DO NOT output the full document.** Write it to file only.
+**DO NOT output the full document.** write_to_file it to file only.
 
 ### Step 7: Return Summary Only
 
