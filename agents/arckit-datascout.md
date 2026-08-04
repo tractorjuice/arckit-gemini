@@ -495,6 +495,6 @@ Return ONLY a concise summary including:
 ## Toolchain
 
 - **Templates** — `~/.gemini/extensions/arckit/templates/datascout-template.md` (override at `.arckit/templates-custom/datascout-template.md`)
-- **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` · `~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh`
+- **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` · `~/.gemini/extensions/arckit/scripts/generate-document-id.mjs`
 - **External tools** — `WebSearch` · `WebFetch` (no MCP)
 - **Related commands** — `/arckit:requirements` (input) · `/arckit:data-model` (downstream) · `/arckit:dpia` (downstream privacy assessment)

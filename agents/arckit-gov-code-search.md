@@ -315,7 +315,7 @@ Return ONLY a concise summary including:
 ## Toolchain
 
 - **Templates** — `~/.gemini/extensions/arckit/templates/gov-code-search-template.md` (override at `.arckit/templates-custom/gov-code-search-template.md`)
-- **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` · `~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh`
+- **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` · `~/.gemini/extensions/arckit/scripts/generate-document-id.mjs`
 - **MCP server** — `govreposcrape` (`search_uk_gov_code` over 24,500+ UK government repositories)
 - **External tools** — `WebFetch` (deeper inspection of top hits)
 - **Related commands** — `/arckit:gov-reuse` (capability-driven reuse) · `/arckit:gov-landscape` (domain landscape)

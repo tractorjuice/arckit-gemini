@@ -253,7 +253,7 @@ to the project's `research/` directory. Run the bundled helper (it is
 positional-then-flags):
 
 ```bash
-bash \"~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh\" \\
+node \"~/.gemini/extensions/arckit/scripts/generate-document-id.mjs\" \\
      {P} TNDR --next-num \"{project_path}/research\"
 ```
 
@@ -354,7 +354,7 @@ Return ONLY a concise summary to the user:
 
 - **Template** — `~/.gemini/extensions/arckit/templates/tenders-template.md` (read by writer)
 - **Schema** — `~/.gemini/extensions/arckit/schemas/tenders-handoff.schema.json`
-- **Helpers** — `~/.gemini/extensions/arckit/scripts/validate-handoff.mjs` · `~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh`
+- **Helpers** — `~/.gemini/extensions/arckit/scripts/validate-handoff.mjs` · `~/.gemini/extensions/arckit/scripts/generate-document-id.mjs`
 - **Subagents dispatched** — `arckit-tenders-reader` (fetch + extract) · `arckit-tenders-writer` (final render)
 - **External tools** — none directly (delegated to reader)
 - **Related commands** — `/arckit:sobc` (downstream Economic Case) · `/arckit:risk` (downstream concentration risk) · `/arckit:research` (build-vs-buy context)

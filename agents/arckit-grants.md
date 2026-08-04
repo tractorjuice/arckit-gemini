@@ -264,6 +264,6 @@ Return ONLY a concise summary including:
 ## Toolchain
 
 - **Templates** — `~/.gemini/extensions/arckit/templates/grants-template.md` (override at `.arckit/templates-custom/grants-template.md`)
-- **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` · `~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh`
+- **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` · `~/.gemini/extensions/arckit/scripts/generate-document-id.mjs`
 - **External tools** — `WebSearch` · `WebFetch` (no MCP)
 - **Related commands** — `/arckit:requirements` (input) · `/arckit:stakeholders` (input) · `/arckit:sobc` (downstream business case)

@@ -307,7 +307,7 @@ Return ONLY a concise summary including:
 ## Toolchain
 
 - **Templates** — `~/.gemini/extensions/arckit/templates/gcp-research-template.md` (override at `.arckit/templates-custom/gcp-research-template.md`)
-- **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` · `~/.gemini/extensions/arckit/scripts/bash/generate-document-id.sh`
+- **Helpers** — `~/.gemini/extensions/arckit/scripts/bash/create-project.sh` · `~/.gemini/extensions/arckit/scripts/generate-document-id.mjs`
 - **MCP server** — `google-developer-knowledge` (search documents, get document, batch get documents)
 - **External tools** — `WebSearch` · `WebFetch` (STANDALONE-mode fallback when MCP unavailable)
 - **Related commands** — `/arckit:requirements` (input) · `/arckit:research` (cross-cloud comparison) · `/arckit:aws-research` · `/arckit:azure-research`
