@@ -324,6 +324,8 @@ Before writing the file, read `~/.gemini/extensions/arckit/references/quality-ch
 
 **Use the Write tool** to save the complete document to `projects/{project-dir}/research/ARC-{PROJECT_ID}-RSCH-v${VERSION}.md` following the template structure.
 
+The Executive Summary opens with the verdict: the overall build/buy/adopt recommendation first, then one Key Findings bullet per category, with Research Scope last, as `~/.gemini/extensions/arckit/references/executive-summary-pattern.md` sets out.
+
 Auto-populate fields:
 
 - `[PROJECT_ID]` from project path
