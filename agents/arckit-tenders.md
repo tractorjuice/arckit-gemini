@@ -2,28 +2,28 @@
 name: arckit-tenders
 description: "Use this agent when the user needs UK procurement market intelligence\
   \ \u2014 award-value benchmarks, top suppliers, incumbency and concentration \u2014\
-  \ drawn from the UK Tenders MCP over roughly 677,000 UK contracting processes. Examples:\n\
-  \n<example>\nContext: User wants award-value benchmarks before writing a business\
-  \ case\nuser: \"/arckit:tenders What do cloud hosting contracts actually go for\
-  \ in central government?\"\nassistant: \"I'll launch the tenders agent to query\
-  \ the UK Tenders MCP for cloud hosting awards, compute median and total awarded\
-  \ value, rank suppliers by share, and produce a procurement market intelligence\
-  \ artefact.\"\n<commentary>\nThe tenders agent makes many MCP calls against Find\
-  \ a Tender, Contracts Finder, Public Contracts Scotland, Sell2Wales and eTendersNI,\
-  \ then derives benchmarks and concentration flags. Running as an agent keeps that\
-  \ retrieval isolated.\n</commentary>\n</example>\n\n<example>\nContext: User wants\
-  \ to know who the incumbent supplier is for a buyer\nuser: \"Who currently holds\
-  \ most of HMRC's IT services spend?\"\nassistant: \"I'll launch the tenders agent\
-  \ to query awarded value by buyer for HMRC, rank suppliers by share of awarded value,\
-  \ and report incumbency and concentration.\"\n<commentary>\nIncumbency questions\
-  \ need buyer-scoped aggregates plus supplier ranking, which is exactly this agent's\
-  \ dispatch path.\n</commentary>\n</example>\n\n<example>\nContext: User wants market\
-  \ context ahead of a build-vs-buy decision\nuser: \"/arckit:tenders --cpv 72200000\
-  \ case management systems\"\nassistant: \"I'll launch the tenders agent to search\
-  \ that CPV space, aggregate awarded value and award counts, produce an award trend\
-  \ over time, and flag market concentration.\"\n<commentary>\nCPV-scoped market sizing\
-  \ requires search, aggregate and time-series MCP calls plus representative notices\
-  \ for citation.\n</commentary>\n</example>\n"
+  \ drawn from the UK Tenders MCP over more than 700,000 UK contracting processes\
+  \ (October 2026). Examples:\n\n<example>\nContext: User wants award-value benchmarks\
+  \ before writing a business case\nuser: \"/arckit:tenders What do cloud hosting\
+  \ contracts actually go for in central government?\"\nassistant: \"I'll launch the\
+  \ tenders agent to query the UK Tenders MCP for cloud hosting awards, compute median\
+  \ and total awarded value, rank suppliers by share, and produce a procurement market\
+  \ intelligence artefact.\"\n<commentary>\nThe tenders agent makes many MCP calls\
+  \ against Find a Tender, Contracts Finder, Public Contracts Scotland, Sell2Wales\
+  \ and eTendersNI, then derives benchmarks and concentration flags. Running as an\
+  \ agent keeps that retrieval isolated.\n</commentary>\n</example>\n\n<example>\n\
+  Context: User wants to know who the incumbent supplier is for a buyer\nuser: \"\
+  Who currently holds most of HMRC's IT services spend?\"\nassistant: \"I'll launch\
+  \ the tenders agent to query awarded value by buyer for HMRC, rank suppliers by\
+  \ share of awarded value, and report incumbency and concentration.\"\n<commentary>\n\
+  Incumbency questions need buyer-scoped aggregates plus supplier ranking, which is\
+  \ exactly this agent's dispatch path.\n</commentary>\n</example>\n\n<example>\n\
+  Context: User wants market context ahead of a build-vs-buy decision\nuser: \"/arckit:tenders\
+  \ --cpv 72200000 case management systems\"\nassistant: \"I'll launch the tenders\
+  \ agent to search that CPV space, aggregate awarded value and award counts, produce\
+  \ an award trend over time, and flag market concentration.\"\n<commentary>\nCPV-scoped\
+  \ market sizing requires search, aggregate and time-series MCP calls plus representative\
+  \ notices for citation.\n</commentary>\n</example>\n"
 max_turns: 25
 timeout_mins: 10
 ---
@@ -83,7 +83,7 @@ Unlike `/arckit:datascout`, requirements are **not** mandatory here. If neither 
 From the user's request, after stripping the project hint:
 
 - Free-text (anything not consumed by a flag) → capability keywords.
-- `--cpv NNNNNNNN` (optionally `NNNNNNNN-N`, the OCDS division suffix) → CPV code. Must match `^[0-9]{8}(-[0-9])?$`.
+- `--cpv NNNNNNNN` (optionally `NNNNNNNN-N`, where the ninth digit is the CPV check digit) → CPV code. Must match `^[0-9]{8}(-[0-9])?$`.
 - `--buyer 'Name'` → buyer.
 - `--supplier 'Name'` → supplier.
 

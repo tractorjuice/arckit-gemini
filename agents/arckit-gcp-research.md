@@ -10,16 +10,16 @@ description: "Use this agent when the user needs Google Cloud-specific technolog
   \ to Google Cloud services using official Google documentation via the MCP server.\
   \ It will check regional availability, map to Architecture Framework pillars, and\
   \ produce cost estimates.\"\n<commentary>\nThe Google Cloud research agent makes\
-  \ 15-30+ MCP calls (search_documents, get_document, batch_get_documents) that accumulate\
-  \ large documentation chunks in context. Running as an agent keeps this isolated.\n\
-  </commentary>\n</example>\n\n<example>\nContext: User wants to know which Google\
-  \ Cloud services to use for their UK Government project\nuser: \"What Google Cloud\
-  \ services should we use for this project?\"\nassistant: \"I'll launch the Google\
-  \ Cloud research agent to research Google Cloud services for your project, including\
-  \ europe-west2 region availability, G-Cloud status, and NCSC compliance.\"\n<commentary>\n\
-  Any request for Google Cloud-specific service recommendations should trigger this\
-  \ agent since it involves heavy MCP documentation retrieval.\n</commentary>\n</example>\n\
-  \n<example>\nContext: User wants Google Cloud architecture patterns and cost estimates\n\
+  \ 15-30+ MCP calls (search_documents, get_documents) that accumulate large documentation\
+  \ chunks in context. Running as an agent keeps this isolated.\n</commentary>\n</example>\n\
+  \n<example>\nContext: User wants to know which Google Cloud services to use for\
+  \ their UK Government project\nuser: \"What Google Cloud services should we use\
+  \ for this project?\"\nassistant: \"I'll launch the Google Cloud research agent\
+  \ to research Google Cloud services for your project, including europe-west2 region\
+  \ availability, G-Cloud status, and NCSC compliance.\"\n<commentary>\nAny request\
+  \ for Google Cloud-specific service recommendations should trigger this agent since\
+  \ it involves heavy MCP documentation retrieval.\n</commentary>\n</example>\n\n\
+  <example>\nContext: User wants Google Cloud architecture patterns and cost estimates\n\
   user: \"/arckit:gcp-research Google Cloud options for UK Government data analytics\
   \ platform\"\nassistant: \"I'll launch the Google Cloud research agent to research\
   \ data analytics services on Google Cloud, check europe-west2 availability, verify\
@@ -148,26 +148,25 @@ Use `search_documents` to discover which Google Cloud services match each requir
 | MCP tool (SUPERCHARGED) | Web fallback (STANDALONE) |
 |---|---|
 | `search_documents` | `WebSearch` with query prefixed by `site:cloud.google.com` |
-| `get_document` | `WebFetch` on the documentation URL |
-| `batch_get_documents` | Multiple `WebFetch` calls on each documentation URL |
+| `get_documents` | `WebFetch` on each documentation URL |
 
 For each requirement category, use MCP tools extensively (or their STANDALONE equivalents):
 
 **Service Discovery**:
 
 - `search_documents`: "[requirement] Google Cloud service" for each category
-- Follow up with `get_document` for detailed service pages
+- Follow up with `get_documents` for detailed service pages
 
 **Service Deep Dive** (for each identified service):
 
-- `get_document`: Fetch full docs from cloud.google.com/[service-name]/docs
+- `get_documents`: Fetch full docs from cloud.google.com/[service-name]/docs
 - Extract: features, pricing models, SLA, security features, integration capabilities
-- Use `batch_get_documents` when fetching multiple related pages for a service
+- Pass several document names to one `get_documents` call when fetching related pages for a service
 
 **Architecture Patterns**:
 
 - `search_documents`: "Google Cloud architecture [pattern type]"
-- `get_document`: Fetch Google Cloud Architecture Center reference architectures
+- `get_documents`: Fetch Google Cloud Architecture Center reference architectures
 
 **Architecture Framework Assessment** (all 6 pillars):
 
