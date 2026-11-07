@@ -69,6 +69,12 @@ DOC_TYPES = {
     "OAAL":       {"name": "ADM Lite Sprint Mapping",                                       "category": "Architecture"},
     "OASEC":      {"name": "Agile Security",                                                "category": "Governance"},
     "OAGOV":      {"name": "Agile Governance",                                              "category": "Governance"},
+    # arc42 overlay
+    "ARC42":      {"name": "arc42 Architecture Description",                                "category": "Architecture"},
+    "QUAL":       {"name": "Quality Scenarios",                                             "category": "Architecture"},
+    "CONC":       {"name": "Crosscutting Concepts",                                         "category": "Architecture"},
+    "DEBT":       {"name": "Technical Debt Register",                                       "category": "Architecture"},
+    "SDDH":       {"name": "SDD Handover Pack",                                             "category": "Planning"},
     # Governance
     "RISK":       {"name": "Risk Register",                                                 "category": "Governance"},
     "TRAC":       {"name": "Traceability Matrix",                                           "category": "Governance"},
@@ -209,6 +215,8 @@ DOC_TYPES = {
     "TBB":        {"name": "Te Beschermen Belangen (TBB) Category Determination",           "category": "Compliance"},
     "BIO2":       {"name": "BIO2 Conformance Assessment",                                   "category": "Compliance"},
     "NLEXIT":     {"name": "NL Cloud Exit Plan",                                            "category": "Governance"},
+    "NORA":       {"name": "NORA Conformance Assessment",                                   "category": "Governance"},
+    "GEMMA":      {"name": "GEMMA Alignment Assessment",                                    "category": "Architecture"},
     # UK Financial Services Payments Overlay
     "FSSCA":      {"name": "UK PSD2 SCA-RTS Exemption Design",                              "category": "Compliance"},
     "FSSAFE":     {"name": "UK EMI / PI Safeguarding Assessment",                           "category": "Compliance"},
