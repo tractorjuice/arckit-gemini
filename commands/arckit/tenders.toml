@@ -121,7 +121,7 @@ Each of these is a small, deterministic transform. Compute them directly in this
 `TNDR` is a multi-instance type, so the ID carries a sequence number scoped to the project's `research/` directory. Run the bundled helper (it is positional-then-flags):
 
 ```bash
-node \"~/.gemini/extensions/arckit/scripts/generate-document-id.mjs\" \\
+node \"$HOME/.gemini/extensions/arckit/scripts/generate-document-id.mjs\" \\
      {P} TNDR --next-num \"{project_path}/research\"
 ```
 

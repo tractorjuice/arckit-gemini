@@ -181,7 +181,7 @@ assessment version, with the scope listing all selected systems.
 Generate the Markdown filename with the shared helper after choosing the version:
 
 ```bash
-node \"~/.gemini/extensions/arckit/scripts/generate-document-id.mjs\" <PROJECT_ID> LEGACY <VERSION> --filename
+node \"$HOME/.gemini/extensions/arckit/scripts/generate-document-id.mjs\" <PROJECT_ID> LEGACY <VERSION> --filename
 ```
 
 Use the returned stem for the JSON, `-risk.svg` and `-components.svg` companions,
@@ -190,7 +190,7 @@ and for the assessment document ID. Do not use `--next-num`: LEGACY is single-in
 Write input to a temporary file, then run:
 
 ```bash
-node \"~/.gemini/extensions/arckit/scripts/legacy-assessment.mjs\" --input assessment-input.json --json
+node \"$HOME/.gemini/extensions/arckit/scripts/legacy-assessment.mjs\" --input assessment-input.json --json
 ```
 
 The helper writes enriched JSON to stdout without changing its input or accessing the
@@ -209,14 +209,14 @@ an enriched file verifies that stored results agree with calculations.
 Generate the report's calculated block with the same enriched JSON:
 
 ```bash
-node \"~/.gemini/extensions/arckit/scripts/legacy-assessment.mjs\" --input assessment-output.json --markdown
+node \"$HOME/.gemini/extensions/arckit/scripts/legacy-assessment.mjs\" --input assessment-output.json --markdown
 ```
 
 When the numerical model is enabled, also generate the report's likelihood–impact
 scatter chart with the same helper and JSON:
 
 ```bash
-node \"~/.gemini/extensions/arckit/scripts/legacy-assessment.mjs\" --input assessment-output.json --svg
+node \"$HOME/.gemini/extensions/arckit/scripts/legacy-assessment.mjs\" --input assessment-output.json --svg
 ```
 
 Save successful SVG stdout beside the report as
@@ -234,7 +234,7 @@ plotting package or image service is required. For `risk-model none`, omit the n
 When components are inventoried, also generate the horizontal component breakdown:
 
 ```bash
-node \"~/.gemini/extensions/arckit/scripts/legacy-assessment.mjs\" --input assessment-output.json --components-svg
+node \"$HOME/.gemini/extensions/arckit/scripts/legacy-assessment.mjs\" --input assessment-output.json --components-svg
 ```
 
 Save it beside the report as `ARC-{PROJECT_ID}-LEGACY-v{VERSION}-components.svg`.
@@ -284,7 +284,7 @@ The digest detects changes; it does not authenticate evidence or approvals.
 After writing the Markdown, JSON and applicable SVG files, require successful verification:
 
 ```bash
-node \"~/.gemini/extensions/arckit/scripts/legacy-assessment.mjs\" --input assessment-output.json --check-report assessment-report.md
+node \"$HOME/.gemini/extensions/arckit/scripts/legacy-assessment.mjs\" --input assessment-output.json --check-report assessment-report.md
 ```
 
 Use the real versioned project paths in these calls. Verification checks the generated factual

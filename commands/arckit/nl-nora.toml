@@ -34,7 +34,7 @@ This command assesses against **local extracts**, not against remembered NORA or
 1. **Refresh the extracts.** From the repository root, run:
 
    ```bash
-   python3 \"~/.gemini/extensions/arckit/scripts/nl-references.py\" nora --dir projects/000-global/external
+   python3 \"$HOME/.gemini/extensions/arckit/scripts/nl-references.py\" nora --dir projects/000-global/external
    ```
 
    Use `all` instead of `nora` when the user input or the project context shows the providing organisation is a gemeente or a gemeentelijk samenwerkingsverband, so the GEMMA principles extract is refreshed too. If `python3` is not found, retry with `python`. The script prints one JSON line per source with a `status`:

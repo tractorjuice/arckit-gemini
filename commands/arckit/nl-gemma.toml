@@ -34,7 +34,7 @@ This command maps against **local extracts**, not against remembered GEMMA conte
 **Refresh the extracts first.** From the repository root, run:
 
 ```bash
-python3 \"~/.gemini/extensions/arckit/scripts/nl-references.py\" gemma --dir projects/000-global/external
+python3 \"$HOME/.gemini/extensions/arckit/scripts/nl-references.py\" gemma --dir projects/000-global/external
 ```
 
 If `python3` is not found, retry with `python`. The script prints one JSON line with a `status`:
